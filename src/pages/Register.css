@@ -1,0 +1,86 @@
+.register-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 80px);
+  background-color: #f7f7f7;
+  padding: 20px 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+.register-card {
+  background: white;
+  padding: 32px;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 420px;
+  box-sizing: border-box;
+}
+
+.register-card h2 {
+  font-size: 22px;
+  font-weight: 600;
+  color: #222222;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.register-card form input,
+.register-card form select {
+  width: 100%;
+  padding: 14px;
+  margin-bottom: 12px;
+  border: 1px solid #b0b0b0;
+  border-radius: 8px;
+  font-size: 15px;
+  box-sizing: border-box;
+  outline: none;
+  background-color: white;
+  transition: border-color 0.2s;
+}
+
+.register-card form input:focus,
+.register-card form select:focus {
+  border-color: #222222;
+}
+
+.role-selector {
+  margin-bottom: 16px;
+}
+
+.role-selector label {
+  display: block;
+  font-size: 13px;
+  color: #717171;
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+.register-card button {
+  margin-top: 8px;
+  padding: 12px;
+  background-color: #ff385c !important;
+  color: white !important;
+  font-weight: 600 !important;
+  border-radius: 8px !important;
+  text-transform: none !important;
+  font-size: 16px !important;
+}
+
+.register-card button:hover {
+  background-color: #e31c5f !important;
+}
+
+.register-card p {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 14px;
+  color: #717171;
+}
+
+.register-card p a {
+  color: #222222;
+  font-weight: 600;
+  text-decoration: underline;
+}

@@ -1,0 +1,112 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  background-color: white;
+  z-index: 100;
+  width: 100%;
+  border-bottom: 1px solid #ebebeb;
+  padding: 0 24px;
+  height: 80px;
+  box-sizing: border-box;
+}
+
+.header__icon {
+  height: 40px;
+  object-fit: contain;
+  cursor: pointer;
+}
+
+.header__center {
+  display: flex;
+  align-items: center;
+  border: 1px solid #dddddd;
+  border-radius: 40px;
+  padding: 10px 16px;
+  width: 300px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.2s ease;
+}
+
+.header__center:hover {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.18), 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+.header__center input {
+  border: none;
+  background-color: transparent;
+  outline: none;
+  font-size: 14px;
+  font-weight: 500;
+  color: #222222;
+  width: 100%;
+  padding: 0 4px;
+}
+
+.header__center input::placeholder {
+  color: #717171;
+}
+
+.header__center .MuiSvgIcon-root {
+  background-color: #ff385c;
+  color: white;
+  border-radius: 50%;
+  padding: 8px;
+  font-size: 32px !important;
+  cursor: pointer;
+}
+
+.header__right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #222222;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.header__host-link,
+.header__user-greeting,
+.header__logout-link,
+.header__login-link {
+  cursor: pointer;
+  padding: 10px 12px;
+  border-radius: 22px;
+  margin: 0;
+  transition: background-color 0.2s;
+}
+
+.header__host-link:hover,
+.header__user-greeting:hover,
+.header__logout-link:hover,
+.header__login-link:hover {
+  background-color: #f7f7f7;
+}
+
+.header__logout-link {
+  font-weight: 700;
+  color: #ff385c;
+}
+
+.header__right .MuiSvgIcon-root {
+  cursor: pointer;
+  color: #222222;
+}
+
+.header__avatar-container {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 4px 8px;
+  border: 1px solid #dddddd;
+  border-radius: 24px;
+  gap: 8px;
+  background-color: white;
+  transition: box-shadow 0.2s;
+}
+
+.header__avatar-container:hover {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}

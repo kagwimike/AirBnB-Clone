@@ -1,0 +1,38 @@
+.home {
+  max-width: 1760px;
+  margin: 0 auto;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  background-color: #ffffff;
+}
+
+.home__section {
+  padding: 24px 40px;
+}
+
+.home__section-title {
+  font-size: 22px;
+  font-weight: 600;
+  color: #222222;
+  margin-bottom: 24px;
+}
+
+.home__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+  row-gap: 40px;
+}
+
+.home__message {
+  text-align: center;
+  color: #717171;
+  font-size: 16px;
+  padding: 40px 0;
+}
+
+/* Responsive adjustments matching Airbnb */
+@media (max-width: 743px) {
+  .home__section {
+    padding: 16px 20px;
+  }
+}

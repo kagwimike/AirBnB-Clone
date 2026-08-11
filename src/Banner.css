@@ -1,0 +1,51 @@
+.banner {
+  height: 50vh;
+  /* Updated to a high-resolution, modern vacation home image */
+  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.5)), 
+                    url("https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1600&q=80");
+  background-position: center;
+  background-size: cover;
+  position: relative;
+}
+
+.banner__info {
+  background-color: transparent; /* Removed solid black box for a cleaner modern look */
+  color: white;
+  padding-top: 15vh; 
+  padding-left: 50px;
+  padding-right: 50px;
+  padding-bottom: 40px;
+  max-width: 500px;
+}
+
+.banner__search {
+  display: flex;
+  flex-direction: column;
+}
+
+.banner__searchButton {
+  background-color: white !important;
+  color: #ff7779 !important;
+  font-weight: 900 !important;
+  text-transform: inherit !important;
+  margin: 20px 0 0 50px !important;
+}
+
+.banner__info > button {
+  background-color: #ff7779 !important;
+  color: white !important;
+  text-transform: inherit !important;
+  margin-top: 20px;
+  font-weight: 600;
+  border: none !important;
+}
+
+.banner__info > h5 {
+  margin-bottom: 10px;
+  font-weight: 300;
+}
+
+.banner__info > button:hover {
+  background-color: white !important;
+  color: #ff7779 !important;
+}
