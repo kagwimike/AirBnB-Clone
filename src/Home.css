@@ -1,38 +1,349 @@
+/* =================================
+   HOME
+================================= */
+
 .home {
-  max-width: 1760px;
+  max-width: 1400px;
+
   margin: 0 auto;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  background-color: #ffffff;
+
+  padding: 35px 40px 60px;
 }
 
-.home__section {
-  padding: 24px 40px;
+
+/* =================================
+   HEADING
+================================= */
+
+.home__heading {
+  margin-bottom: 30px;
 }
 
-.home__section-title {
-  font-size: 22px;
+.home__heading h1 {
+  margin: 0;
+
+  font-size: 28px;
+
   font-weight: 600;
+
   color: #222222;
-  margin-bottom: 24px;
 }
 
-.home__grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 24px;
-  row-gap: 40px;
-}
+.home__heading p {
+  margin-top: 8px;
 
-.home__message {
-  text-align: center;
   color: #717171;
-  font-size: 16px;
-  padding: 40px 0;
+
+  font-size: 15px;
 }
 
-/* Responsive adjustments matching Airbnb */
-@media (max-width: 743px) {
-  .home__section {
-    padding: 16px 20px;
+
+/* =================================
+   PROPERTY GRID
+================================= */
+
+.property-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(4, 1fr);
+
+  gap: 28px 22px;
+}
+
+
+/* =================================
+   PROPERTY CARD
+================================= */
+
+.property-card {
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.property-card:hover {
+  transform: translateY(-3px);
+}
+
+
+/* =================================
+   IMAGE
+================================= */
+
+.property-card__image-container {
+  width: 100%;
+
+  height: 260px;
+
+  overflow: hidden;
+
+  border-radius: 14px;
+
+  background: #eeeeee;
+}
+
+.property-card__image {
+  width: 100%;
+
+  height: 100%;
+
+  object-fit: cover;
+
+  display: block;
+
+  transition: transform 0.3s ease;
+}
+
+.property-card:hover
+.property-card__image {
+  transform: scale(1.04);
+}
+
+
+/* =================================
+   CONTENT
+================================= */
+
+.property-card__content {
+  padding-top: 12px;
+}
+
+.property-card__content h2 {
+  margin: 0;
+
+  font-size: 16px;
+
+  font-weight: 600;
+
+  color: #222222;
+
+  white-space: nowrap;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+}
+
+
+/* =================================
+   LOCATION
+================================= */
+
+.property-card__location {
+  margin: 5px 0;
+
+  color: #717171;
+
+  font-size: 14px;
+}
+
+
+/* =================================
+   DESCRIPTION
+================================= */
+
+.property-card__description {
+  margin: 5px 0;
+
+  color: #717171;
+
+  font-size: 13px;
+
+  line-height: 1.4;
+}
+
+
+/* =================================
+   PRICE
+================================= */
+
+.property-card__price {
+  margin-top: 8px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 5px;
+
+  font-size: 14px;
+}
+
+.property-card__price strong {
+  color: #222222;
+}
+
+.property-card__price span {
+  color: #717171;
+}
+
+
+/* =================================
+   LOADING
+================================= */
+
+.home__loading {
+  min-height: 400px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  justify-content: center;
+
+  align-items: center;
+
+  color: #717171;
+}
+
+
+/* =================================
+   SPINNER
+================================= */
+
+.home__spinner {
+  width: 40px;
+
+  height: 40px;
+
+  border: 4px solid #eeeeee;
+
+  border-top: 4px solid #ff385c;
+
+  border-radius: 50%;
+
+  animation: spin 1s linear infinite;
+
+  margin-bottom: 15px;
+}
+
+@keyframes spin {
+
+  from {
+    transform: rotate(0deg);
   }
+
+  to {
+    transform: rotate(360deg);
+  }
+
+}
+
+
+/* =================================
+   EMPTY / ERROR
+================================= */
+
+.home__message,
+.home__empty {
+  min-height: 400px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  justify-content: center;
+
+  align-items: center;
+
+  text-align: center;
+
+  padding: 30px;
+}
+
+.home__message h2,
+.home__empty h2 {
+  font-size: 24px;
+
+  margin-bottom: 10px;
+}
+
+.home__message p,
+.home__empty p {
+  color: #717171;
+}
+
+
+/* =================================
+   EMPTY BUTTON
+================================= */
+
+.home__empty button {
+  margin-top: 15px;
+
+  padding: 12px 22px;
+
+  border: none;
+
+  border-radius: 8px;
+
+  background: #ff385c;
+
+  color: white;
+
+  font-size: 14px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.home__empty button:hover {
+  background: #e31c5f;
+}
+
+
+/* =================================
+   TABLET
+================================= */
+
+@media (max-width: 1100px) {
+
+  .property-grid {
+    grid-template-columns:
+      repeat(3, 1fr);
+  }
+
+}
+
+
+/* =================================
+   SMALL TABLET
+================================= */
+
+@media (max-width: 800px) {
+
+  .home {
+    padding: 25px 20px;
+  }
+
+  .property-grid {
+    grid-template-columns:
+      repeat(2, 1fr);
+  }
+
+}
+
+
+/* =================================
+   MOBILE
+================================= */
+
+@media (max-width: 550px) {
+
+  .property-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .property-card__image-container {
+    height: 280px;
+  }
+
+  .home__heading h1 {
+    font-size: 24px;
+  }
+
 }

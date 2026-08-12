@@ -1,133 +1,262 @@
-.property-modal .MuiDialog-paper {
-  border-radius: 16px;
-  overflow: hidden;
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  animation: fadeIn 0.2s ease-out forwards;
 }
 
-.property-modal__container {
+.modal-content {
+  background-color: white;
+  width: 90%;
+  max-width: 1032px;
+  max-height: 90vh;
+  border-radius: 12px;
+  overflow-y: auto;
   position: relative;
-  padding: 32px;
-  background: white;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.28);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  animation: slideUp 0.3s ease-out forwards;
 }
 
-.property-modal__close {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  background: #f7f7f7;
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(50px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Header & Close Button */
+.modal-header {
+  position: sticky;
+  top: 0;
+  background: white;
+  padding: 16px 24px;
+  border-bottom: 1px solid #ebebeb;
+  z-index: 10;
+}
+
+.modal-close-btn {
+  background: transparent;
   border: none;
+  cursor: pointer;
   border-radius: 50%;
-  width: 36px;
-  height: 36px;
+  padding: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
-  transition: background 0.2s;
+  transition: background-color 0.2s;
 }
 
-.property-modal__close:hover {
-  background: #e5e5e5;
+.modal-close-btn:hover {
+  background-color: #f7f7f7;
 }
 
-.property-modal__container h2 {
-  font-size: 24px;
+.modal-body {
+  padding: 24px;
+}
+
+.modal-title {
+  font-size: 26px;
   font-weight: 600;
   color: #222222;
-  margin-bottom: 4px;
-  padding-right: 40px;
-}
-
-.property-modal__location {
-  font-size: 14px;
-  color: #717171;
-  text-decoration: underline;
-  margin-bottom: 20px;
-}
-
-.property-modal__grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
-  max-height: 400px;
-  overflow-y: auto;
-  border-radius: 12px;
+  margin-top: 0;
   margin-bottom: 24px;
 }
 
-.property-modal__grid img {
+.modal-image-container {
   width: 100%;
-  height: 200px;
+  height: 400px;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 32px;
+}
+
+.modal-image-container img {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
-  border-radius: 8px;
 }
 
-.property-modal__body {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: 40px;
+/* Split Layout Engine */
+.modal-layout {
+  display: flex;
+  gap: 80px;
 }
 
-.property-modal__details h3 {
-  font-size: 18px;
+.modal-details {
+  flex: 1.5;
+}
+
+.modal-details-header h2 {
+  font-size: 22px;
   font-weight: 600;
+  color: #222222;
   margin-bottom: 8px;
 }
 
-.property-modal__details p {
-  color: #717171;
-  font-size: 15px;
-  margin-bottom: 16px;
+.modal-details-header p {
+  color: #222222;
+  font-size: 16px;
+  margin: 0;
 }
 
-.property-modal__desc {
-  color: #222222 !important;
+.modal-description p {
+  font-size: 16px;
   line-height: 1.5;
-  margin: 16px 0;
-}
-
-.property-modal__amenities {
-  list-style: none;
-  padding: 0;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
-  margin-top: 12px;
-}
-
-.property-modal__amenities li {
-  font-size: 14px;
   color: #222222;
 }
 
-.property-modal__booking-box {
-  border: 1px solid #b0b0b0;
+/* Right Side: Sticky Booking Card */
+.modal-booking-widget {
+  flex: 1;
+  position: relative;
+}
+
+.booking-card {
+  position: sticky;
+  top: 24px;
+  background: white;
+  border: 1px solid #dddddd;
   border-radius: 12px;
   padding: 24px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
-  height: fit-content;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
 }
 
-.price-tag {
-  font-size: 20px;
+.booking-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.booking-card-header h3 {
+  font-size: 22px;
+  font-weight: 600;
+  margin: 0;
+  color: #222222;
+}
+
+.booking-card-header h3 span {
+  font-size: 16px;
+  font-weight: 400;
+  color: #717171;
+}
+
+.booking-card-rating {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.booking-inputs {
+  border: 1px solid #b0b0b0;
+  border-radius: 8px;
   margin-bottom: 16px;
+  overflow: hidden;
 }
 
-.property-modal__booking-box button {
+.date-inputs {
+  display: flex;
+  border-bottom: 1px solid #b0b0b0;
+}
+
+.input-group {
+  flex: 1;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+}
+
+.border-right {
+  border-right: 1px solid #b0b0b0;
+}
+
+.input-group label, .guest-input label {
+  font-size: 10px;
+  font-weight: 800;
+  margin-bottom: 2px;
+  color: #222222;
+}
+
+.input-group input, .guest-input input {
+  border: none;
+  outline: none;
+  font-size: 14px;
+  color: #717171;
+  width: 100%;
+}
+
+.guest-input {
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+}
+
+.reserve-btn {
   background-color: #ff385c !important;
+  color: white !important;
   font-weight: 600 !important;
-  padding: 12px !important;
+  padding: 14px !important;
   border-radius: 8px !important;
   text-transform: none !important;
+  font-size: 16px !important;
 }
 
-.property-modal__booking-box button:hover {
+.reserve-btn:hover {
   background-color: #e31c5f !important;
 }
 
-.note {
+.no-charge-text {
   text-align: center;
-  font-size: 12px;
+  font-size: 14px;
   color: #717171;
-  margin-top: 12px;
+  margin-top: 16px;
+  margin-bottom: 24px;
+}
+
+.price-breakdown {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.price-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 16px;
+  color: #222222;
+}
+
+.price-row.total {
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .modal-layout {
+    flex-direction: column;
+    gap: 32px;
+  }
+  
+  .modal-image-container {
+    height: 250px;
+  }
+  
+  .booking-card {
+    position: static;
+  }
+}
+
+.border-bottom {
+  border-bottom: 1px solid #b0b0b0;
 }

@@ -1,6 +1,112 @@
-.search {
-    position: absolute;
-    top: 35px;
-    left: 25%;
-    width: 100vw;
+.search-modal {
+  position: fixed;
+  top: 85px; 
+  left: 50%;
+  transform: translateX(-50%);
+  background: white;
+  padding: 24px 32px;
+  border-radius: 24px;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  width: max-content;
+  max-width: 95vw;
+  
+  /* UX Fix: Prevent modal from overflowing the screen vertically */
+  max-height: calc(100vh - 110px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  
+  box-sizing: border-box;
+  animation: slideDown 0.2s ease-out forwards;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* UX Fix: Custom sleek scrollbar so it doesn't look like a standard Windows 95 scrollbar */
+.search-modal::-webkit-scrollbar {
+  width: 6px;
+}
+.search-modal::-webkit-scrollbar-track {
+  background: transparent;
+  margin: 10px 0;
+}
+.search-modal::-webkit-scrollbar-thumb {
+  background-color: #dddddd;
+  border-radius: 10px;
+}
+.search-modal::-webkit-scrollbar-thumb:hover {
+  background-color: #b0b0b0;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translate(-50%, -10px); }
+  to { opacity: 1; transform: translate(-50%, 0); }
+}
+
+.search-modal__calendar {
+  border: 1px solid #ebebeb;
+  border-radius: 16px;
+  overflow: hidden;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+}
+
+/* Guest Selector Layout */
+.guest-selector {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 0;
+}
+
+.guest-selector__left {
+  display: flex;
+  align-items: center;
+}
+
+.guest-selector__controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* MUI Icon Button Overrides */
+.guest-selector__controls .MuiIconButton-root {
+  color: #717171;
+  transition: all 0.2s ease;
+}
+
+.guest-selector__controls .MuiIconButton-root:hover {
+  border-color: #222222;
+  color: #222222;
+}
+
+.guest-selector__controls .Mui-disabled {
+  border-color: #ebebeb !important;
+  color: #ebebeb !important;
+}
+
+/* React Date Range Airbnb Customizations */
+.rdrCalendarWrapper {
+  font-family: inherit !important;
+  font-size: 14px !important;
+}
+.rdrSelected, .rdrInRange, .rdrStartEdge, .rdrEndEdge {
+  background: #ff385c !important;
+}
+.rdrDayToday .rdrDayNumber span:after {
+  background: #ff385c !important;
+}
+
+/* Responsive constraints */
+@media (max-width: 768px) {
+  .search-modal {
+    width: 100%;
+    max-width: 100vw;
+    left: 0;
+    transform: none;
+    top: 80px;
+    padding: 20px;
+    border-radius: 0 0 24px 24px;
+  }
 }

@@ -1,80 +1,152 @@
-.login-container {
+/* Split Container for the whole page */
+.login-split-container {
+  display: flex;
+  min-height: calc(100vh - 80px); /* Adjust based on header height */
+  font-family: 'Circular', -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: #ffffff;
+}
+
+/* LEFT SIDE: Cinematic Image */
+.login-image-side {
+  flex: 1.2; /* Takes up slightly more than half the screen */
+  background-image: url('https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=1600&auto=format&fit=crop&q=80');
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Dark gradient overlay to make text pop */
+.login-image-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to bottom right, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.7));
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 60px;
+  color: white;
+}
+
+.login-image-overlay h1 {
+  font-size: 54px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  line-height: 1.1;
+}
+
+.login-image-overlay p {
+  font-size: 22px;
+  font-weight: 300;
+  max-width: 80%;
+  line-height: 1.4;
+}
+
+/* RIGHT SIDE: Form Container */
+.login-form-side {
+  flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: calc(100vh - 80px);
-  background-color: #f7f7f7;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  padding: 40px;
+  background-color: #ffffff;
 }
 
 .login-card {
-  background: white;
-  padding: 32px;
-  border-radius: 12px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
   width: 100%;
-  max-width: 400px;
-  box-sizing: border-box;
+  max-width: 450px;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08); /* Soft floating shadow */
+  border: 1px solid #ebebeb;
 }
 
 .login-card h2 {
-  font-size: 22px;
-  font-weight: 600;
-  color: #222222;
+  margin-top: 0;
   margin-bottom: 24px;
+  font-size: 24px;
+  color: #222222;
+  font-weight: 600;
   text-align: center;
 }
 
+/* Error message styling */
 .error-message {
-  background-color: #ffe6e6;
-  color: #c92a2a;
-  padding: 10px;
+  background-color: #ffebe9;
+  color: #e21c3d;
+  padding: 12px;
   border-radius: 8px;
+  margin-bottom: 20px;
   font-size: 14px;
-  margin-bottom: 16px;
+  font-weight: 500;
   text-align: center;
+  border: 1px solid #ffc1c0;
 }
 
-.login-card form input {
+/* Form inputs */
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group input {
   width: 100%;
-  padding: 14px;
-  margin-bottom: 12px;
+  padding: 14px 16px;
   border: 1px solid #b0b0b0;
   border-radius: 8px;
-  font-size: 15px;
+  font-size: 16px;
   box-sizing: border-box;
   outline: none;
-  transition: border-color 0.2s;
+  transition: border-color 0.2s ease;
 }
 
-.login-card form input:focus {
+.form-group input:focus {
   border-color: #222222;
+  border-width: 2px;
+  padding: 13px 15px; /* Offset to prevent layout shift */
 }
 
-.login-card button {
-  margin-top: 8px;
-  padding: 12px;
-  background-color: #ff385c !important; /* Airbnb Theme Red/Pink */
-  color: white !important;
-  font-weight: 600 !important;
-  border-radius: 8px !important;
-  text-transform: none !important;
-  font-size: 16px !important;
-}
-
-.login-card button:hover {
-  background-color: #e31c5f !important;
-}
-
-.login-card p {
-  margin-top: 20px;
+/* Footer links */
+.login-footer {
+  margin-top: 24px;
   text-align: center;
-  font-size: 14px;
+  font-size: 15px;
   color: #717171;
 }
 
-.login-card p a {
+.login-footer a {
   color: #222222;
   font-weight: 600;
   text-decoration: underline;
+}
+
+.login-footer a:hover {
+  color: #ff7779;
+}
+
+/* Responsive Rules */
+@media (max-width: 900px) {
+  .login-split-container {
+    flex-direction: column;
+  }
+  
+  .login-image-side {
+    display: none; /* Hides the image on mobile to save space and focus on login */
+  }
+  
+  .login-form-side {
+    padding: 20px;
+    align-items: flex-start;
+    padding-top: 10vh; /* Pushes the form down slightly on mobile */
+  }
+  
+  .login-card {
+    box-shadow: none;
+    border: none;
+    padding: 20px;
+  }
 }

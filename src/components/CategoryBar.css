@@ -1,0 +1,49 @@
+.category-bar {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  padding: 16px 40px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #ebebeb;
+  overflow-x: auto;
+  white-space: nowrap;
+  scrollbar-width: none; /* Hide scrollbar for a clean look */
+}
+
+.category-bar::-webkit-scrollbar {
+  display: none;
+}
+
+.category-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  opacity: 0.64;
+  transition: opacity 0.2s, border-bottom 0.2s;
+  padding-bottom: 8px;
+  border-bottom: 2px solid transparent;
+  flex-shrink: 0;
+}
+
+.category-item:hover {
+  opacity: 1;
+  border-bottom: 2px solid #dddddd;
+}
+
+.category-item.active {
+  opacity: 1;
+  border-bottom: 2px solid #222222;
+}
+
+.category-item .MuiSvgIcon-root {
+  font-size: 24px;
+  color: #222222;
+}
+
+.category-item span {
+  font-size: 12px;
+  font-weight: 600;
+  color: #222222;
+}

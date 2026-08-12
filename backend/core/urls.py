@@ -16,4 +16,6 @@ urlpatterns = [
     path('api/properties/', include('properties.urls')),
     # path('api/bookings/', include('bookings.urls')),
     # path('api/payments/', include('payments.urls')),
+   path('api/bookings/',include('bookings.urls')),
+   path('api/payments/',include('payments.urls')),
 ]

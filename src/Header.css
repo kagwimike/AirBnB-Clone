@@ -1,112 +1,357 @@
+/* =================================
+   HEADER
+================================= */
+
 .header {
+  width: 100%;
+  height: 80px;
+
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
+
+  padding: 0 40px;
+
+  background: #ffffff;
+
+  border-bottom: 1px solid #eeeeee;
+
+  box-sizing: border-box;
+
   position: sticky;
   top: 0;
-  background-color: white;
-  z-index: 100;
-  width: 100%;
-  border-bottom: 1px solid #ebebeb;
-  padding: 0 24px;
-  height: 80px;
-  box-sizing: border-box;
+
+  z-index: 1000;
 }
 
-.header__icon {
-  height: 40px;
-  object-fit: contain;
-  cursor: pointer;
-}
 
-.header__center {
+/* =================================
+   LOGO
+================================= */
+
+.header__left {
   display: flex;
   align-items: center;
+}
+
+.header__logo {
+  color: #ff385c;
+
+  font-size: 30px;
+
+  font-weight: 700;
+
+  text-decoration: none;
+}
+
+
+/* =================================
+   SEARCH
+================================= */
+
+.header__search {
+  width: 380px;
+  height: 48px;
+
+  display: flex;
+  align-items: center;
+
   border: 1px solid #dddddd;
-  border-radius: 40px;
-  padding: 10px 16px;
-  width: 300px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.05);
-  transition: box-shadow 0.2s ease;
+
+  border-radius: 30px;
+
+  padding-left: 20px;
+  padding-right: 6px;
+
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+
+  transition: 0.2s;
 }
 
-.header__center:hover {
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.18), 0 4px 16px rgba(0, 0, 0, 0.08);
+.header__search:hover {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 
-.header__center input {
+.header__search input {
+  flex: 1;
+
   border: none;
-  background-color: transparent;
+
   outline: none;
+
   font-size: 14px;
-  font-weight: 500;
-  color: #222222;
-  width: 100%;
-  padding: 0 4px;
 }
 
-.header__center input::placeholder {
-  color: #717171;
-}
+.header__search button {
+  width: 38px;
+  height: 38px;
 
-.header__center .MuiSvgIcon-root {
-  background-color: #ff385c;
-  color: white;
+  border: none;
+
   border-radius: 50%;
-  padding: 8px;
-  font-size: 32px !important;
+
+  background: #ff385c;
+
+  color: white;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   cursor: pointer;
 }
+
+.header__search button:hover {
+  background: #e31c5f;
+}
+
+
+/* =================================
+   RIGHT SIDE
+================================= */
 
 .header__right {
   display: flex;
   align-items: center;
-  gap: 8px;
-  color: #222222;
-  font-weight: 600;
+
+  gap: 18px;
+
+  position: relative;
+}
+
+
+/* =================================
+   HOST BUTTON
+================================= */
+
+.header__host {
+  border: none;
+
+  background: transparent;
+
   font-size: 14px;
-}
 
-.header__host-link,
-.header__user-greeting,
-.header__logout-link,
-.header__login-link {
+  font-weight: 500;
+
   cursor: pointer;
+
   padding: 10px 12px;
-  border-radius: 22px;
-  margin: 0;
-  transition: background-color 0.2s;
+
+  border-radius: 20px;
 }
 
-.header__host-link:hover,
-.header__user-greeting:hover,
-.header__logout-link:hover,
-.header__login-link:hover {
-  background-color: #f7f7f7;
+.header__host:hover {
+  background: #f7f7f7;
 }
 
-.header__logout-link {
-  font-weight: 700;
-  color: #ff385c;
-}
 
-.header__right .MuiSvgIcon-root {
+/* =================================
+   LANGUAGE
+================================= */
+
+.header__language {
   cursor: pointer;
-  color: #222222;
 }
 
-.header__avatar-container {
+
+/* =================================
+   USER
+================================= */
+
+.header__user {
+  position: relative;
+}
+
+.header__user-button {
   display: flex;
   align-items: center;
-  cursor: pointer;
+
+  gap: 3px;
+
   padding: 4px 8px;
+
   border: 1px solid #dddddd;
-  border-radius: 24px;
-  gap: 8px;
-  background-color: white;
-  transition: box-shadow 0.2s;
+
+  background: #ffffff;
+
+  border-radius: 30px;
+
+  cursor: pointer;
 }
 
-.header__avatar-container:hover {
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+.header__user-button:hover {
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+}
+
+.header__user-button .MuiAvatar-root {
+  width: 34px;
+  height: 34px;
+}
+
+
+/* =================================
+   DROPDOWN
+================================= */
+
+.header__dropdown {
+  position: absolute;
+
+  right: 0;
+
+  top: 55px;
+
+  width: 240px;
+
+  background: white;
+
+  border-radius: 14px;
+
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+
+  overflow: hidden;
+
+  border: 1px solid #eeeeee;
+}
+
+
+/* =================================
+   USER INFO
+================================= */
+
+.header__user-info {
+  display: flex;
+
+  flex-direction: column;
+
+  padding: 18px;
+
+  border-bottom: 1px solid #eeeeee;
+}
+
+.header__user-info strong {
+  font-size: 15px;
+}
+
+.header__user-info span {
+  font-size: 13px;
+
+  color: #777777;
+
+  margin-top: 5px;
+}
+
+
+/* =================================
+   DROPDOWN BUTTONS
+================================= */
+
+.header__dropdown button {
+  width: 100%;
+
+  padding: 14px 18px;
+
+  border: none;
+
+  background: white;
+
+  text-align: left;
+
+  font-size: 14px;
+
+  cursor: pointer;
+}
+
+.header__dropdown button:hover {
+  background: #f7f7f7;
+}
+
+
+/* =================================
+   LOGOUT
+================================= */
+
+.header__dropdown .header__logout {
+  color: #d32f2f;
+
+  border-top: 1px solid #eeeeee;
+
+  font-weight: 600;
+}
+
+
+/* =================================
+   LOGIN
+================================= */
+
+.header__login {
+  border: none;
+
+  background: transparent;
+
+  font-size: 14px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.header__login:hover {
+  text-decoration: underline;
+}
+
+
+/* =================================
+   RESPONSIVE
+================================= */
+
+@media (max-width: 900px) {
+
+  .header {
+    padding: 0 20px;
+  }
+
+  .header__search {
+    width: 280px;
+  }
+
+  .header__host {
+    display: none;
+  }
+
+}
+
+
+@media (max-width: 650px) {
+
+  .header {
+    height: 70px;
+  }
+
+  .header__logo {
+    font-size: 24px;
+  }
+
+  .header__search {
+    width: 45px;
+
+    border: none;
+
+    box-shadow: none;
+
+    padding: 0;
+  }
+
+  .header__search input {
+    display: none;
+  }
+
+  .header__search button {
+    width: 42px;
+    height: 42px;
+  }
+
+  .header__language {
+    display: none;
+  }
+
 }

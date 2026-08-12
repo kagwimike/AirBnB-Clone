@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from './context/AuthContext';
 import './Header.css';
+
 import SearchIcon from '@mui/icons-material/Search';
 import LanguageIcon from '@mui/icons-material/Language';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -9,65 +10,246 @@ import Avatar from '@mui/material/Avatar';
 
 function Header() {
   const { user, logout } = useAuth();
+
   const navigate = useNavigate();
+
+  const [searchTerm, setSearchTerm] = useState('');
+  const [showMenu, setShowMenu] = useState(false);
+
+  // ==============================
+  // SEARCH
+  // ==============================
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+
+    const location = searchTerm.trim();
+
+    if (location) {
+      navigate(`/?location=${encodeURIComponent(location)}`);
+    } else {
+      navigate('/');
+    }
+  };
+
+  // ==============================
+  // HOST
+  // ==============================
 
   const handleHostClick = () => {
     if (!user) {
       navigate('/login');
-    } else if (user.role === 'HOST') {
-      navigate('/host/add-property');
-    } else {
-      navigate('/register'); // Or prompt them to switch roles
+      return;
     }
+
+    if (user.role === 'HOST') {
+      navigate('/add-property');
+    } else {
+      navigate('/register');
+    }
+
+    setShowMenu(false);
+  };
+
+  // ==============================
+  // USER MENU
+  // ==============================
+
+  const handleAvatarClick = () => {
+    if (!user) {
+      navigate('/login');
+      return;
+    }
+
+    setShowMenu((prev) => !prev);
+  };
+
+  // ==============================
+  // LOGOUT
+  // ==============================
+
+  const handleLogout = () => {
+    logout();
+    setShowMenu(false);
+    navigate('/');
   };
 
   return (
-    <div className="header">
-      {/* Clickable Airbnb logo to return to Home */}
-      <Link to="/">
-        <img
-          className="header__icon"
-          src="https://i.pinimg.com/originals/3c/bf/be/3cbfbe148597341fa56f2f87ade90956.png"
-          alt="Airbnb logo"
-        />
-      </Link>
+    <header className="header">
 
-      <div className="header__center">
-        <input type="text" placeholder="Start your search" />
-        <SearchIcon />
+      {/* ==========================
+          LOGO
+      =========================== */}
+
+      <div className="header__left">
+
+        <Link to="/" className="header__logo">
+          Airbnb
+        </Link>
+
       </div>
+
+
+      {/* ==========================
+          SEARCH
+      =========================== */}
+
+      <form
+        className="header__search"
+        onSubmit={handleSearch}
+      >
+
+        <input
+          type="text"
+          placeholder="Search destinations"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+
+        <button type="submit">
+          <SearchIcon />
+        </button>
+
+      </form>
+
+
+      {/* ==========================
+          RIGHT SIDE
+      =========================== */}
 
       <div className="header__right">
-        <p onClick={handleHostClick} className="header__host-link">
-          {user?.role === 'HOST' ? 'Airbnb your home' : 'Become a host'}
-        </p>
 
-        {user ? (
-          <>
-            <p className="header__user-greeting">
-              Hello, {user.first_name || 'Guest'}
-            </p>
-            <p onClick={logout} className="header__logout-link">
-              Logout
-            </p>
-          </>
-        ) : (
-          <p onClick={() => navigate('/login')} className="header__login-link">
-            Log in
-          </p>
-        )}
-        
-        <LanguageIcon />
-        
-        <div 
-          className="header__avatar-container" 
-          onClick={() => !user && navigate('/login')}
+        <button
+          className="header__host"
+          onClick={handleHostClick}
         >
-          <ExpandMoreIcon />
-          <Avatar src={user?.avatar_url || ''} alt={user?.email || 'User Avatar'} />
+          {user?.role === 'HOST'
+            ? 'Airbnb your home'
+            : 'Become a host'}
+        </button>
+
+
+        <LanguageIcon className="header__language" />
+
+
+        {/* ==========================
+            USER MENU
+        =========================== */}
+
+        <div className="header__user">
+
+          <button
+            className="header__user-button"
+            onClick={handleAvatarClick}
+          >
+
+            <ExpandMoreIcon />
+
+            <Avatar
+              src={user?.avatar_url || ''}
+              alt={user?.email || 'User'}
+            />
+
+          </button>
+
+
+          {/* ==========================
+              DROPDOWN
+          =========================== */}
+
+          {showMenu && user && (
+
+            <div className="header__dropdown">
+
+              <div className="header__user-info">
+
+                <strong>
+                  {user.first_name || 'Guest'}
+                </strong>
+
+                <span>
+                  {user.email}
+                </span>
+
+              </div>
+
+
+              <button
+                onClick={() => {
+                  navigate('/');
+                  setShowMenu(false);
+                }}
+              >
+                Home
+              </button>
+
+
+              {user.role === 'HOST' && (
+
+                <button
+                  onClick={() => {
+                    navigate('/add-property');
+                    setShowMenu(false);
+                  }}
+                >
+                  Add Property
+                </button>
+
+              )}
+
+
+              <button
+                onClick={() => {
+                  navigate('/bookings');
+                  setShowMenu(false);
+                }}
+              >
+                My Bookings
+              </button>
+
+
+              <button
+                onClick={() => {
+                  navigate('/profile');
+                  setShowMenu(false);
+                }}
+              >
+                Profile
+              </button>
+
+
+              <button
+                className="header__logout"
+                onClick={handleLogout}
+              >
+                Logout
+              </button>
+
+            </div>
+
+          )}
+
         </div>
+
+
+        {/* ==========================
+            LOGIN
+        =========================== */}
+
+        {!user && (
+
+          <button
+            className="header__login"
+            onClick={() => navigate('/login')}
+          >
+            Log in
+          </button>
+
+        )}
+
       </div>
-    </div>
+
+    </header>
   );
 }
 

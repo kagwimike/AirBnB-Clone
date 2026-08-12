@@ -18,10 +18,16 @@ class Property(models.Model):
         HOUSE = 'HOUSE', 'House'
         CABIN = 'CABIN', 'Cabin'
         
+    class Category(models.TextChoices):
+        HOMES = 'HOMES', 'Homes'
+        EXPERIENCES = 'EXPERIENCES', 'Experiences'
+        SERVICES = 'SERVICES', 'Services'
+        
     host = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='properties')
     title = models.CharField(max_length=255)
     description = models.TextField()
     property_type = models.CharField(max_length=20, choices=PropertyType.choices, default=PropertyType.APARTMENT)
+    category = models.CharField(max_length=20, choices=Category.choices, default=Category.HOMES)
     
     location = models.CharField(max_length=255)
     latitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)

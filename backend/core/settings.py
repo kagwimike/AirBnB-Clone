@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     # Local Apps
     'accounts',
     'properties',
+     'bookings',
+'payments',
 ]
 
 # Tell Django to use our custom user model

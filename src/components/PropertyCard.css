@@ -1,68 +1,101 @@
 .property-card {
+  display: flex;
+  flex-direction: column;
   cursor: pointer;
-  margin-bottom: 24px;
-  transition: transform 0.2s ease;
+  background: transparent;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  transition: transform 0.2s ease-in-out;
 }
 
-.property-card:hover {
-  transform: translateY(-4px);
+/* Subtle scale effect on mobile, but rely mostly on image-hover on desktop */
+.property-card:active {
+  transform: scale(0.98);
 }
 
 .property-card__image-container {
+  position: relative;
   width: 100%;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 20 / 19; /* The signature Airbnb slightly-tall square */
   border-radius: 12px;
   overflow: hidden;
-  background-color: #f7f7f7;
+  margin-bottom: 12px;
 }
 
-.property-card__image-container img {
+.property-card__image {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: opacity 0.2s;
+  transition: transform 0.3s ease;
 }
 
+.property-card:hover .property-card__image {
+  transform: scale(1.05); /* Smooth zoom effect on hover */
+}
+
+/* Floating Heart Icon */
+.property-card__favorite {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 10;
+}
+
+.property-card__favorite .MuiIconButton-root:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  transform: scale(1.1);
+}
+
+/* Text Information Layout */
 .property-card__info {
-  margin-top: 10px;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
 .property-card__header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
 }
 
-.property-card__header h3 {
+.property-card__location {
   font-size: 15px;
   font-weight: 600;
   color: #222222;
   margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 80%;
 }
 
 .property-card__rating {
   display: flex;
   align-items: center;
-  font-size: 14px;
-  font-weight: 500;
-  color: #222222;
-  margin: 0;
-}
-
-.property-card__rating .MuiSvgIcon-root {
-  font-size: 18px;
+  font-size: 15px;
   color: #222222;
 }
 
-.property-card__subtitle {
-  font-size: 14px;
+.property-card__title,
+.property-card__host {
+  font-size: 15px;
   color: #717171;
-  margin: 2px 0;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.property-card__price-container {
+  margin-top: 6px;
+  font-size: 15px;
+  color: #222222;
 }
 
 .property-card__price {
-  font-size: 14px;
+  font-weight: 600;
+}
+
+.property-card__price-label {
   color: #222222;
-  margin-top: 4px;
 }
