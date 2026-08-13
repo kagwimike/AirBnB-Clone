@@ -3,8 +3,8 @@ from datetime import datetime
 import requests
 from django.conf import settings
 
-DARAJA_CONSUMER_KEY = getattr(settings, 'DARAJA_CONSUMER_KEY', 'your_sandbox_consumer_key')
-DARAJA_CONSUMER_SECRET = getattr(settings, 'DARAJA_CONSUMER_SECRET', 'your_sandbox_consumer_secret')
+DARAJA_CONSUMER_KEY = getattr(settings, 'DARAJA_CONSUMER_KEY', 'LBijLM8wVXoH4cm8RPf08ev2pl7GwuQkyFuoBv64mpBQjZQ1')
+DARAJA_CONSUMER_SECRET = getattr(settings, 'DARAJA_CONSUMER_SECRET', 'Jq861MGs3gtZdf5MO28kTTcsF3CH8Gltr52PGYTblZ0AoKeZpiMuLZoPjtRJVL0e')
 BUSINESS_SHORTCODE = '174379'
 PASSKEY = 'bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919'
 CALLBACK_URL = getattr(settings, 'DARAJA_CALLBACK_URL', 'https://yourdomain.com/api/payments/callback/')

@@ -1,349 +1,190 @@
-/* =================================
-   HOME
-================================= */
-
+/* ==================================
+   GLOBAL HOME LAYOUT
+================================== */
 .home {
-  max-width: 1400px;
-
+  max-width: 1760px;
   margin: 0 auto;
-
-  padding: 35px 40px 60px;
+  padding: 24px 40px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  color: #222222;
+  min-height: 100vh;
+  box-sizing: border-box;
 }
 
-
-/* =================================
-   HEADING
-================================= */
-
 .home__heading {
-  margin-bottom: 30px;
+  margin-bottom: 32px;
 }
 
 .home__heading h1 {
-  margin: 0;
-
-  font-size: 28px;
-
+  font-size: 32px;
   font-weight: 600;
-
-  color: #222222;
+  margin: 0 0 8px 0;
+  letter-spacing: -0.02em;
 }
 
 .home__heading p {
-  margin-top: 8px;
-
-  color: #717171;
-
-  font-size: 15px;
-}
-
-
-/* =================================
-   PROPERTY GRID
-================================= */
-
-.property-grid {
-  display: grid;
-
-  grid-template-columns:
-    repeat(4, 1fr);
-
-  gap: 28px 22px;
-}
-
-
-/* =================================
-   PROPERTY CARD
-================================= */
-
-.property-card {
-  cursor: pointer;
-
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
-}
-
-.property-card:hover {
-  transform: translateY(-3px);
-}
-
-
-/* =================================
-   IMAGE
-================================= */
-
-.property-card__image-container {
-  width: 100%;
-
-  height: 260px;
-
-  overflow: hidden;
-
-  border-radius: 14px;
-
-  background: #eeeeee;
-}
-
-.property-card__image {
-  width: 100%;
-
-  height: 100%;
-
-  object-fit: cover;
-
-  display: block;
-
-  transition: transform 0.3s ease;
-}
-
-.property-card:hover
-.property-card__image {
-  transform: scale(1.04);
-}
-
-
-/* =================================
-   CONTENT
-================================= */
-
-.property-card__content {
-  padding-top: 12px;
-}
-
-.property-card__content h2 {
-  margin: 0;
-
   font-size: 16px;
-
-  font-weight: 600;
-
-  color: #222222;
-
-  white-space: nowrap;
-
-  overflow: hidden;
-
-  text-overflow: ellipsis;
-}
-
-
-/* =================================
-   LOCATION
-================================= */
-
-.property-card__location {
-  margin: 5px 0;
-
   color: #717171;
-
-  font-size: 14px;
+  margin: 0;
 }
 
-
-/* =================================
-   DESCRIPTION
-================================= */
-
-.property-card__description {
-  margin: 5px 0;
-
-  color: #717171;
-
-  font-size: 13px;
-
-  line-height: 1.4;
-}
-
-
-/* =================================
-   PRICE
-================================= */
-
-.property-card__price {
-  margin-top: 8px;
-
+/* ==================================
+   LOADING & ERROR STATES
+================================== */
+.home__loading,
+.home__message,
+.home__empty {
   display: flex;
-
-  align-items: center;
-
-  gap: 5px;
-
-  font-size: 14px;
-}
-
-.property-card__price strong {
-  color: #222222;
-}
-
-.property-card__price span {
-  color: #717171;
-}
-
-
-/* =================================
-   LOADING
-================================= */
-
-.home__loading {
-  min-height: 400px;
-
-  display: flex;
-
   flex-direction: column;
-
-  justify-content: center;
-
   align-items: center;
-
-  color: #717171;
+  justify-content: center;
+  min-height: 50vh;
+  text-align: center;
 }
-
-
-/* =================================
-   SPINNER
-================================= */
 
 .home__spinner {
   width: 40px;
-
   height: 40px;
-
-  border: 4px solid #eeeeee;
-
+  border: 4px solid #ebebeb;
   border-top: 4px solid #ff385c;
-
   border-radius: 50%;
-
   animation: spin 1s linear infinite;
-
-  margin-bottom: 15px;
+  margin-bottom: 16px;
 }
 
 @keyframes spin {
-
-  from {
-    transform: rotate(0deg);
-  }
-
-  to {
-    transform: rotate(360deg);
-  }
-
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
-
-/* =================================
-   EMPTY / ERROR
-================================= */
-
-.home__message,
-.home__empty {
-  min-height: 400px;
-
-  display: flex;
-
-  flex-direction: column;
-
-  justify-content: center;
-
-  align-items: center;
-
-  text-align: center;
-
-  padding: 30px;
-}
-
-.home__message h2,
-.home__empty h2 {
+.home__empty h2, 
+.home__message h2 {
   font-size: 24px;
-
-  margin-bottom: 10px;
+  font-weight: 600;
+  margin-bottom: 8px;
 }
 
-.home__message p,
-.home__empty p {
+.home__empty p, 
+.home__message p {
   color: #717171;
+  margin-bottom: 24px;
 }
-
-
-/* =================================
-   EMPTY BUTTON
-================================= */
 
 .home__empty button {
-  margin-top: 15px;
-
-  padding: 12px 22px;
-
-  border: none;
-
-  border-radius: 8px;
-
-  background: #ff385c;
-
+  background-color: #ff385c;
   color: white;
-
-  font-size: 14px;
-
+  border: none;
+  padding: 14px 24px;
+  border-radius: 8px;
+  font-size: 16px;
   font-weight: 600;
-
   cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
 .home__empty button:hover {
-  background: #e31c5f;
+  background-color: #e31c5f;
 }
 
-
-/* =================================
-   TABLET
-================================= */
-
-@media (max-width: 1100px) {
-
-  .property-grid {
-    grid-template-columns:
-      repeat(3, 1fr);
-  }
-
+/* ==================================
+   PROPERTY GRID ENGINE
+================================== */
+.property-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  column-gap: 24px;
+  row-gap: 40px;
 }
 
+/* ==================================
+   INLINE PROPERTY CARDS
+================================== */
+.property-card {
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
 
-/* =================================
-   SMALL TABLET
-================================= */
+.property-card:active {
+  transform: scale(0.98);
+}
 
-@media (max-width: 800px) {
+.property-card__image-container {
+  width: 100%;
+  aspect-ratio: 20 / 19; /* Airbnb's signature slightly-tall square */
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 12px;
+  background-color: #ebebeb;
+}
 
+.property-card__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.property-card:hover .property-card__image {
+  transform: scale(1.05); /* Smooth image zoom on hover */
+}
+
+.property-card__content {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.property-card__content h2 {
+  font-size: 15px;
+  font-weight: 600;
+  color: #222222;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.property-card__location {
+  font-size: 15px;
+  color: #717171;
+  margin: 0;
+}
+
+.property-card__description {
+  font-size: 15px;
+  color: #717171;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.property-card__price {
+  margin-top: 6px;
+  font-size: 15px;
+  color: #222222;
+}
+
+.property-card__price strong {
+  font-weight: 600;
+}
+
+/* ==================================
+   MOBILE RESPONSIVENESS
+================================== */
+@media (max-width: 743px) {
   .home {
-    padding: 25px 20px;
+    padding: 16px 24px;
   }
-
-  .property-grid {
-    grid-template-columns:
-      repeat(2, 1fr);
-  }
-
-}
-
-
-/* =================================
-   MOBILE
-================================= */
-
-@media (max-width: 550px) {
-
-  .property-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .property-card__image-container {
-    height: 280px;
-  }
-
+  
   .home__heading h1 {
     font-size: 24px;
   }
-
+  
+  .property-grid {
+    grid-template-columns: 1fr; /* Stack cards on very small screens */
+    row-gap: 32px;
+  }
 }

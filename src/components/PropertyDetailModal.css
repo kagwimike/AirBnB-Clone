@@ -1,3 +1,6 @@
+/* ==================================
+   MODAL BACKDROP & ANIMATIONS
+================================== */
 .modal-backdrop {
   position: fixed;
   top: 0;
@@ -35,7 +38,9 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Header & Close Button */
+/* ==================================
+   HEADER & CLOSE BUTTON
+================================== */
 .modal-header {
   position: sticky;
   top: 0;
@@ -61,6 +66,9 @@
   background-color: #f7f7f7;
 }
 
+/* ==================================
+   MODAL BODY & IMAGE
+================================== */
 .modal-body {
   padding: 24px;
 }
@@ -87,7 +95,9 @@
   object-fit: cover;
 }
 
-/* Split Layout Engine */
+/* ==================================
+   SPLIT LAYOUT (LEFT: DETAILS, RIGHT: WIDGET)
+================================== */
 .modal-layout {
   display: flex;
   gap: 80px;
@@ -102,6 +112,7 @@
   font-weight: 600;
   color: #222222;
   margin-bottom: 8px;
+  margin-top: 0;
 }
 
 .modal-details-header p {
@@ -116,7 +127,9 @@
   color: #222222;
 }
 
-/* Right Side: Sticky Booking Card */
+/* ==================================
+   RIGHT SIDE: STICKY BOOKING CARD
+================================== */
 .modal-booking-widget {
   flex: 1;
   position: relative;
@@ -159,6 +172,9 @@
   font-weight: 600;
 }
 
+/* ==================================
+   INPUT FIELDS (DATES, GUESTS, MPESA)
+================================== */
 .booking-inputs {
   border: 1px solid #b0b0b0;
   border-radius: 8px;
@@ -182,19 +198,26 @@
   border-right: 1px solid #b0b0b0;
 }
 
-.input-group label, .guest-input label {
+.border-bottom {
+  border-bottom: 1px solid #b0b0b0;
+}
+
+.input-group label, 
+.guest-input label {
   font-size: 10px;
   font-weight: 800;
   margin-bottom: 2px;
   color: #222222;
 }
 
-.input-group input, .guest-input input {
+.input-group input, 
+.guest-input input {
   border: none;
   outline: none;
   font-size: 14px;
   color: #717171;
   width: 100%;
+  font-family: inherit;
 }
 
 .guest-input {
@@ -203,6 +226,9 @@
   flex-direction: column;
 }
 
+/* ==================================
+   BUTTON & PRICING
+================================== */
 .reserve-btn {
   background-color: #ff385c !important;
   color: white !important;
@@ -211,6 +237,7 @@
   border-radius: 8px !important;
   text-transform: none !important;
   font-size: 16px !important;
+  box-shadow: none !important;
 }
 
 .reserve-btn:hover {
@@ -242,6 +269,9 @@
   font-weight: 600;
 }
 
+/* ==================================
+   MOBILE RESPONSIVENESS
+================================== */
 @media (max-width: 768px) {
   .modal-layout {
     flex-direction: column;
@@ -255,8 +285,4 @@
   .booking-card {
     position: static;
   }
-}
-
-.border-bottom {
-  border-bottom: 1px solid #b0b0b0;
 }
