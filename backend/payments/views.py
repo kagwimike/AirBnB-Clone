@@ -1,6 +1,8 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status, permissions
+from datetime import datetime
+from decimal import Decimal, ROUND_HALF_UP
 
 from bookings.models import Booking
 from properties.models import Property
@@ -18,7 +20,6 @@ class MpesaCheckoutView(APIView):
         check_in = data.get('check_in')
         check_out = data.get('check_out')
         guests = data.get('guests')
-        total_price = data.get('total_price')
         phone_number = data.get('mpesa_phone')
 
         # -----------------------------------
@@ -29,13 +30,12 @@ class MpesaCheckoutView(APIView):
             check_in,
             check_out,
             guests,
-            total_price,
             phone_number
         ]):
             return Response(
                 {
                     "error": "property_id, check_in, check_out, guests, "
-                             "total_price and mpesa_phone are required."
+                             "and mpesa_phone are required."
                 },
                 status=status.HTTP_400_BAD_REQUEST
             )
@@ -50,6 +50,26 @@ class MpesaCheckoutView(APIView):
                 {"error": "Property not found"},
                 status=status.HTTP_404_NOT_FOUND
             )
+
+        try:
+            check_in_date = datetime.strptime(check_in, '%Y-%m-%d').date()
+            check_out_date = datetime.strptime(check_out, '%Y-%m-%d').date()
+            guests = int(guests)
+        except (TypeError, ValueError):
+            return Response({'error': 'Use valid check-in, check-out and guest values.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        if check_out_date <= check_in_date or guests < 1 or guests > property_obj.max_guests:
+            return Response({'error': 'The requested dates or guest count are not valid for this property.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        if Booking.objects.filter(property=property_obj, check_in_date__lt=check_out_date, check_out_date__gt=check_in_date, payment_status__in=['PENDING', 'CONFIRMED']).exists():
+            return Response({'error': 'These dates are no longer available.'}, status=status.HTTP_409_CONFLICT)
+
+        nights = (check_out_date - check_in_date).days
+        accommodation = Decimal(property_obj.price_per_night) * nights
+        cleaning_fee = Decimal('1000.00')
+        service_fee = (accommodation * Decimal('0.10')).quantize(Decimal('.01'), rounding=ROUND_HALF_UP)
+        taxes = ((accommodation + cleaning_fee + service_fee) * Decimal('0.16')).quantize(Decimal('.01'), rounding=ROUND_HALF_UP)
+        total_price = accommodation + cleaning_fee + service_fee + taxes
 
         # -----------------------------------
         # Initiate M-Pesa STK Push
@@ -88,8 +108,8 @@ class MpesaCheckoutView(APIView):
             booking = Booking.objects.create(
                 user=request.user,
                 property=property_obj,
-                check_in_date=check_in,
-                check_out_date=check_out,
+                check_in_date=check_in_date,
+                check_out_date=check_out_date,
                 guests=guests,
                 total_price=total_price,
                 payment_status='PENDING'
@@ -115,7 +135,15 @@ class MpesaCheckoutView(APIView):
                     "checkout_request_id": checkout_request_id,
                     "merchant_request_id": merchant_request_id,
                     "booking_id": booking.id,
-                    "payment_id": payment.id
+                    "payment_id": payment.id,
+                    "pricing": {
+                        "nights": nights,
+                        "accommodation": str(accommodation),
+                        "cleaning_fee": str(cleaning_fee),
+                        "service_fee": str(service_fee),
+                        "taxes": str(taxes),
+                        "total": str(total_price),
+                    }
                 },
                 status=status.HTTP_200_OK
             )

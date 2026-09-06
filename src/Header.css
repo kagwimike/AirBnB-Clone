@@ -1,357 +1,681 @@
-/* =================================
-   HEADER
-================================= */
+/* =========================================
+   GLOBAL HEADER
+========================================= */
 
 .header {
+  height: 78px;
   width: 100%;
-  height: 80px;
+  padding: 0 48px;
 
   display: flex;
   align-items: center;
   justify-content: space-between;
 
-  padding: 0 40px;
-
   background: #ffffff;
-
-  border-bottom: 1px solid #eeeeee;
-
-  box-sizing: border-box;
+  border-bottom: 1px solid #e8e8e8;
 
   position: sticky;
   top: 0;
-
   z-index: 1000;
+
+  box-sizing: border-box;
 }
 
 
-/* =================================
-   LOGO
-================================= */
+/* =========================================
+   LEFT SIDE / LOGO
+========================================= */
 
 .header__left {
   display: flex;
   align-items: center;
+
+  min-width: 180px;
 }
 
 .header__logo {
-  color: #ff385c;
-
-  font-size: 30px;
-
-  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 
   text-decoration: none;
+  color: #ff385c;
+
+  cursor: pointer;
+}
+
+.header__icon {
+  width: 34px;
+  height: 34px;
+
+  fill: currentColor;
+}
+
+.header__logo-text {
+  font-size: 25px;
+  font-weight: 700;
+  letter-spacing: -1px;
+
+  color: #ff385c;
 }
 
 
-/* =================================
-   SEARCH
-================================= */
+/* =========================================
+   MAIN NAVIGATION
+========================================= */
+
+.header__navigation {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+
+  margin-left: 20px;
+}
+
+.header__nav-link {
+  position: relative;
+
+  padding: 28px 0;
+
+  text-decoration: none;
+
+  font-size: 15px;
+  font-weight: 500;
+
+  color: #555555;
+
+  transition: color 0.2s ease;
+}
+
+.header__nav-link:hover {
+  color: #111111;
+}
+
+.header__nav-link.active {
+  color: #111111;
+  font-weight: 600;
+}
+
+.header__nav-link.active::after {
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+  bottom: 18px;
+
+  width: 100%;
+  height: 2px;
+
+  background: #111111;
+
+  border-radius: 10px;
+}
+
+
+/* =========================================
+   SEARCH BAR
+========================================= */
 
 .header__search {
-  width: 380px;
-  height: 48px;
-
   display: flex;
   align-items: center;
 
-  border: 1px solid #dddddd;
+  width: 300px;
+  height: 46px;
 
+  margin-left: auto;
+  margin-right: 30px;
+
+  padding-left: 18px;
+
+  border: 1px solid #dddddd;
   border-radius: 30px;
 
-  padding-left: 20px;
-  padding-right: 6px;
+  background: #ffffff;
 
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 
-  transition: 0.2s;
+  transition:
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
 }
 
-.header__search:hover {
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+.header__search:focus-within {
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.15);
+
+  transform: translateY(-1px);
 }
 
 .header__search input {
   flex: 1;
 
-  border: none;
+  min-width: 0;
 
+  border: none;
   outline: none;
 
   font-size: 14px;
+
+  background: transparent;
+
+  color: #222222;
+}
+
+.header__search input::placeholder {
+  color: #8a8a8a;
 }
 
 .header__search button {
   width: 38px;
   height: 38px;
 
-  border: none;
-
-  border-radius: 50%;
-
-  background: #ff385c;
-
-  color: white;
+  margin-right: 4px;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
+  border: none;
+  border-radius: 50%;
+
+  background: #ff385c;
+
+  color: #ffffff;
+
   cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease;
 }
 
 .header__search button:hover {
   background: #e31c5f;
+
+  transform: scale(1.05);
+}
+
+.header__search button svg {
+  font-size: 20px;
 }
 
 
-/* =================================
+/* =========================================
    RIGHT SIDE
-================================= */
+========================================= */
 
 .header__right {
   display: flex;
   align-items: center;
-
-  gap: 18px;
+  gap: 12px;
 
   position: relative;
 }
 
 
-/* =================================
+/* =========================================
    HOST BUTTON
-================================= */
+========================================= */
 
 .header__host {
+  padding: 11px 14px;
+
   border: none;
+  border-radius: 22px;
 
   background: transparent;
 
   font-size: 14px;
+  font-weight: 600;
 
-  font-weight: 500;
+  color: #222222;
 
   cursor: pointer;
 
-  padding: 10px 12px;
+  white-space: nowrap;
 
-  border-radius: 20px;
+  transition: background 0.2s ease;
 }
 
 .header__host:hover {
-  background: #f7f7f7;
+  background: #f5f5f5;
 }
 
 
-/* =================================
-   LANGUAGE
-================================= */
+/* =========================================
+   LANGUAGE BUTTON
+========================================= */
+
+.header__language-button {
+  width: 40px;
+  height: 40px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: none;
+  border-radius: 50%;
+
+  background: transparent;
+
+  cursor: pointer;
+
+  transition: background 0.2s ease;
+}
+
+.header__language-button:hover {
+  background: #f5f5f5;
+}
 
 .header__language {
-  cursor: pointer;
+  font-size: 20px;
+
+  color: #222222;
 }
 
 
-/* =================================
-   USER
-================================= */
+/* =========================================
+   USER SECTION
+========================================= */
 
 .header__user {
   position: relative;
 }
 
+
+/* =========================================
+   AVATAR BUTTON
+========================================= */
+
 .header__user-button {
+  height: 46px;
+
   display: flex;
   align-items: center;
+  gap: 7px;
 
-  gap: 3px;
-
-  padding: 4px 8px;
+  padding: 5px 6px 5px 10px;
 
   border: 1px solid #dddddd;
+  border-radius: 25px;
 
   background: #ffffff;
 
-  border-radius: 30px;
-
   cursor: pointer;
+
+  transition:
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
 }
 
 .header__user-button:hover {
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+  border-color: #bbbbbb;
+
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.14);
 }
+
+.header__user-button svg {
+  font-size: 20px;
+
+  color: #555555;
+}
+
+
+/* =========================================
+   MUI AVATAR
+========================================= */
 
 .header__user-button .MuiAvatar-root {
   width: 34px;
   height: 34px;
+
+  background: #717171;
+
+  font-size: 14px;
 }
 
 
-/* =================================
-   DROPDOWN
-================================= */
+/* =========================================
+   LOGIN BUTTON
+========================================= */
+
+.header__login {
+  padding: 10px 18px;
+
+  border: 1px solid #dddddd;
+  border-radius: 24px;
+
+  background: #ffffff;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  color: #222222;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.header__login:hover {
+  background: #f7f7f7;
+
+  border-color: #bbbbbb;
+}
+
+
+/* =========================================
+   DROPDOWN MENU
+========================================= */
 
 .header__dropdown {
   position: absolute;
 
+  top: calc(100% + 12px);
   right: 0;
 
-  top: 55px;
+  width: 260px;
 
-  width: 240px;
+  padding: 8px 0;
 
-  background: white;
+  background: #ffffff;
 
-  border-radius: 14px;
+  border-radius: 16px;
 
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.18);
 
   overflow: hidden;
 
-  border: 1px solid #eeeeee;
+  z-index: 2000;
+
+  animation: dropdownFade 0.18s ease;
 }
 
 
-/* =================================
-   USER INFO
-================================= */
+/* =========================================
+   DROPDOWN ANIMATION
+========================================= */
+
+@keyframes dropdownFade {
+  from {
+    opacity: 0;
+
+    transform:
+      translateY(-8px)
+      scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translateY(0)
+      scale(1);
+  }
+}
+
+
+/* =========================================
+   USER INFORMATION
+========================================= */
 
 .header__user-info {
   display: flex;
+  align-items: center;
 
+  gap: 12px;
+
+  padding: 16px 18px;
+}
+
+.header__dropdown-avatar {
+  width: 42px !important;
+  height: 42px !important;
+
+  background: #717171 !important;
+}
+
+.header__user-info div {
+  display: flex;
   flex-direction: column;
 
-  padding: 18px;
+  gap: 3px;
 
-  border-bottom: 1px solid #eeeeee;
+  overflow: hidden;
 }
 
 .header__user-info strong {
-  font-size: 15px;
+  font-size: 14px;
+
+  color: #222222;
 }
 
 .header__user-info span {
-  font-size: 13px;
+  font-size: 12px;
 
-  color: #777777;
+  color: #717171;
 
-  margin-top: 5px;
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+
+  max-width: 170px;
 }
 
 
-/* =================================
-   DROPDOWN BUTTONS
-================================= */
+/* =========================================
+   MENU ITEMS
+========================================= */
 
 .header__dropdown button {
   width: 100%;
 
-  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+
+  gap: 14px;
+
+  padding: 13px 18px;
 
   border: none;
 
-  background: white;
+  background: transparent;
 
   text-align: left;
 
   font-size: 14px;
 
+  color: #333333;
+
   cursor: pointer;
+
+  transition: background 0.15s ease;
 }
 
 .header__dropdown button:hover {
   background: #f7f7f7;
 }
 
+.header__dropdown button svg {
+  font-size: 19px;
 
-/* =================================
+  color: #666666;
+}
+
+
+/* =========================================
+   MENU DIVIDER
+========================================= */
+
+.header__menu-divider {
+  height: 1px;
+
+  margin: 8px 0;
+
+  background: #eeeeee;
+}
+
+
+/* =========================================
    LOGOUT
-================================= */
+========================================= */
 
-.header__dropdown .header__logout {
-  color: #d32f2f;
-
-  border-top: 1px solid #eeeeee;
+.header__logout {
+  color: #d93025 !important;
 
   font-weight: 600;
 }
 
-
-/* =================================
-   LOGIN
-================================= */
-
-.header__login {
-  border: none;
-
-  background: transparent;
-
-  font-size: 14px;
-
-  font-weight: 600;
-
-  cursor: pointer;
+.header__logout svg {
+  color: #d93025 !important;
 }
 
-.header__login:hover {
-  text-decoration: underline;
+.header__logout:hover {
+  background: #fff3f2 !important;
 }
 
 
-/* =================================
-   RESPONSIVE
-================================= */
+/* =========================================
+   RESPONSIVE - LARGE LAPTOP
+========================================= */
 
-@media (max-width: 900px) {
+@media (max-width: 1200px) {
+  .header {
+    padding: 0 28px;
+  }
 
+  .header__navigation {
+    gap: 18px;
+  }
+
+  .header__search {
+    width: 240px;
+
+    margin-right: 15px;
+  }
+}
+
+
+/* =========================================
+   RESPONSIVE - TABLET
+========================================= */
+
+@media (max-width: 992px) {
   .header {
     padding: 0 20px;
   }
 
+  .header__navigation {
+    display: none;
+  }
+
   .header__search {
+    margin-left: auto;
+
     width: 280px;
   }
 
   .header__host {
     display: none;
   }
-
 }
 
 
-@media (max-width: 650px) {
+/* =========================================
+   RESPONSIVE - MOBILE
+========================================= */
 
+@media (max-width: 768px) {
   .header {
-    height: 70px;
+    height: auto;
+
+    min-height: 70px;
+
+    padding: 10px 16px;
+
+    flex-wrap: wrap;
+
+    gap: 10px;
   }
 
-  .header__logo {
-    font-size: 24px;
+  /* Logo */
+
+  .header__left {
+    min-width: auto;
   }
 
-  .header__search {
-    width: 45px;
-
-    border: none;
-
-    box-shadow: none;
-
-    padding: 0;
-  }
-
-  .header__search input {
+  .header__logo-text {
     display: none;
   }
 
-  .header__search button {
-    width: 42px;
+  /* Search */
+
+  .header__search {
+    order: 3;
+
+    width: 100%;
+
+    margin: 0;
+
+    height: 44px;
+  }
+
+  /* Right */
+
+  .header__right {
+    margin-left: auto;
+
+    gap: 6px;
+  }
+
+  /* Language */
+
+  .header__language-button {
+    display: none;
+  }
+
+  /* Login */
+
+  .header__login {
+    padding: 8px 14px;
+  }
+
+  /* Dropdown */
+
+  .header__dropdown {
+    position: fixed;
+
+    top: 75px;
+    right: 12px;
+
+    width: min(300px, calc(100vw - 24px));
+  }
+}
+
+
+/* =========================================
+   SMALL MOBILE
+========================================= */
+
+@media (max-width: 480px) {
+  .header__user-button {
     height: 42px;
   }
 
-  .header__language {
-    display: none;
+  .header__user-button .MuiAvatar-root {
+    width: 30px;
+    height: 30px;
   }
 
+  .header__login {
+    font-size: 13px;
+
+    padding: 8px 12px;
+  }
 }

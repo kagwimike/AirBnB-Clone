@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Property, PropertyImage, Amenity
+from .models import Property, PropertyImage, Amenity, Wishlist, Review, ReviewImage
 from accounts.serializers import UserSerializer
 
 class AmenitySerializer(serializers.ModelSerializer):
@@ -35,7 +35,7 @@ class PropertySerializer(serializers.ModelSerializer):
         fields = (
             'id', 'host', 'title', 'description', 'property_type',
             'location', 'latitude', 'longitude', 'price_per_night',
-            'max_guests', 'bedrooms', 'bathrooms', 'amenities', 'amenity_ids',
+            'max_guests', 'bedrooms', 'bathrooms', 'house_rules', 'check_in_instructions', 'amenities', 'amenity_ids',
             'images', 'is_active', 'created_at'
         )
         read_only_fields = ('host', 'created_at')
@@ -63,3 +63,46 @@ class PropertySerializer(serializers.ModelSerializer):
                 )
 
         return property_instance
+
+
+class ReviewImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ReviewImage
+        fields = ('id', 'image')
+
+
+class ReviewSerializer(serializers.ModelSerializer):
+    guest = UserSerializer(read_only=True)
+    images = ReviewImageSerializer(many=True, read_only=True)
+    image_uploads = serializers.ListField(child=serializers.ImageField(), write_only=True, required=False)
+
+    class Meta:
+        model = Review
+        fields = ('id', 'property', 'booking', 'guest', 'rating', 'comment', 'images', 'image_uploads', 'created_at')
+        read_only_fields = ('property', 'guest')
+
+    def validate_rating(self, value):
+        if not 1 <= value <= 5:
+            raise serializers.ValidationError('Rating must be between 1 and 5.')
+        return value
+
+    def create(self, validated_data):
+        uploads = validated_data.pop('image_uploads', [])
+        review = Review.objects.create(**validated_data)
+        for image in uploads:
+            ReviewImage.objects.create(review=review, image=image)
+        return review
+
+
+class WishlistSerializer(serializers.ModelSerializer):
+    properties = PropertySerializer(many=True, read_only=True)
+    property_ids = serializers.PrimaryKeyRelatedField(source='properties', queryset=Property.objects.all(), many=True, write_only=True, required=False)
+    share_url = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Wishlist
+        fields = ('id', 'name', 'properties', 'property_ids', 'is_shared', 'share_token', 'share_url', 'created_at')
+        read_only_fields = ('share_token',)
+
+    def get_share_url(self, obj):
+        return f'/wishlists/shared/{obj.share_token}/' if obj.is_shared else None

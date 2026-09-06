@@ -20,6 +20,10 @@ function PropertyDetailModal({ property, open, onClose }) {
 
   // Robust base price extraction supporting multiple backend property naming conventions
   const basePrice = parseFloat(property?.price_per_night || property?.price || property?.cost || 50);
+  const cleaningFee = 1000;
+  const serviceFee = totalPrice * 0.1;
+  const taxes = (totalPrice + cleaningFee + serviceFee) * 0.16;
+  const grandTotal = totalPrice + cleaningFee + serviceFee + taxes;
 
   useEffect(() => {
     if (checkIn && checkOut) {
@@ -62,15 +66,11 @@ function PropertyDetailModal({ property, open, onClose }) {
 
     setIsProcessing(true);
     
-    const calculatedBase = totalPrice > 0 ? totalPrice : basePrice;
-    const finalTotalWithTax = calculatedBase + (calculatedBase * 0.1);
-    
     const bookingData = {
       property_id: Number(property.id || 1),
       check_in: effectiveCheckIn,
       check_out: effectiveCheckOut,
       guests: parseInt(guests, 10) || 1,
-      total_price: parseFloat(finalTotalWithTax.toFixed(2)),
       mpesa_phone: phone,
       email: user.email 
     };
@@ -133,6 +133,40 @@ function PropertyDetailModal({ property, open, onClose }) {
               <div className="modal-description">
                 <p>{property.description || "Experience the perfect getaway in this beautifully designed space. Featuring modern amenities, cozy interiors, and easy access to local attractions."}</p>
               </div>
+
+              <div className="property-detail-section">
+                <h3>Amenities</h3>
+                {property.amenities?.length ? (
+                  <ul className="amenities-list">
+                    {property.amenities.map((amenity) => (
+                      <li key={amenity.id || amenity.name}>{amenity.name || amenity}</li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p>Comfortable essentials are included. Ask the host about anything specific you need.</p>
+                )}
+              </div>
+
+              <div className="property-detail-section host-summary">
+                <h3>Hosted by {property.host?.first_name || property.host?.username || 'your host'}</h3>
+                <p>Contact details and check-in instructions are shared after a confirmed booking.</p>
+              </div>
+
+              <div className="property-detail-section house-rules">
+                <h3>House rules</h3>
+                <p>{property.house_rules || 'Respect the space, follow the agreed check-in time, and confirm any special requests with the host before booking.'}</p>
+              </div>
+
+              {property.latitude && property.longitude && (
+                <div className="property-detail-section">
+                  <h3>Location</h3>
+                  <iframe
+                    className="property-location-map"
+                    title="Property location"
+                    src={`https://www.openstreetmap.org/export/embed.html?bbox=${Number(property.longitude) - 0.02}%2C${Number(property.latitude) - 0.02}%2C${Number(property.longitude) + 0.02}%2C${Number(property.latitude) + 0.02}&layer=mapnik&marker=${property.latitude}%2C${property.longitude}`}
+                  />
+                </div>
+              )}
             </div>
 
             <div className="modal-booking-widget">
@@ -207,13 +241,21 @@ function PropertyDetailModal({ property, open, onClose }) {
                       <span>${totalPrice}</span>
                     </div>
                     <div className="price-row">
+                      <span>Cleaning fee</span>
+                      <span>KES {cleaningFee.toFixed(2)}</span>
+                    </div>
+                    <div className="price-row">
                       <span>Service fee</span>
-                      <span>${(totalPrice * 0.1).toFixed(2)}</span>
+                      <span>KES {serviceFee.toFixed(2)}</span>
+                    </div>
+                    <div className="price-row">
+                      <span>Taxes</span>
+                      <span>KES {taxes.toFixed(2)}</span>
                     </div>
                     <Divider sx={{ my: 2 }} />
                     <div className="price-row total">
-                      <span>Total before taxes</span>
-                      <span>${(totalPrice + (totalPrice * 0.1)).toFixed(2)}</span>
+                      <span>Total</span>
+                      <span>KES {grandTotal.toFixed(2)}</span>
                     </div>
                   </div>
                 )}

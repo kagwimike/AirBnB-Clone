@@ -22,3 +22,34 @@ class Booking(models.Model):
 
     def __str__(self):
         return f"Booking {self.id} - {self.property.title} ({self.payment_status})"
+
+
+class Conversation(models.Model):
+    booking = models.OneToOneField(Booking, on_delete=models.CASCADE, related_name='conversation')
+    guest = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='guest_conversations')
+    host = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='host_conversations')
+    updated_at = models.DateTimeField(auto_now=True)
+
+
+class Message(models.Model):
+    conversation = models.ForeignKey(Conversation, on_delete=models.CASCADE, related_name='messages')
+    sender = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='sent_messages')
+    body = models.TextField(blank=True)
+    attachment = models.FileField(upload_to='message_attachments/', blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    read_at = models.DateTimeField(blank=True, null=True)
+
+    class Meta:
+        ordering = ['created_at']
+
+
+class Notification(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='notifications')
+    title = models.CharField(max_length=160)
+    body = models.TextField()
+    link = models.CharField(max_length=255, blank=True)
+    is_read = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created_at']

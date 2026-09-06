@@ -1,0 +1,101 @@
+.stat-card {
+  background: white;
+
+  border: 1px solid #edf0f3;
+
+  border-radius: 16px;
+
+  padding: 22px;
+
+  min-height: 145px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  justify-content: space-between;
+
+  transition: all 0.25s ease;
+
+  box-shadow:
+    0 4px 15px
+    rgba(0, 0, 0, 0.03);
+}
+
+
+.stat-card:hover {
+  transform: translateY(-4px);
+
+  box-shadow:
+    0 12px 30px
+    rgba(0, 0, 0, 0.08);
+}
+
+
+.stat-card-top {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+}
+
+
+.stat-card-icon {
+  width: 45px;
+  height: 45px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 12px;
+
+  background: #fff1f3;
+
+  color: #ff385c;
+}
+
+
+.stat-card-icon svg {
+  font-size: 23px;
+}
+
+
+.stat-card-trend {
+  font-size: 12px;
+
+  color: #16a34a;
+
+  background: #ecfdf5;
+
+  padding: 5px 8px;
+
+  border-radius: 7px;
+}
+
+
+.stat-card-content p {
+  margin: 18px 0 5px;
+
+  font-size: 13px;
+
+  color: #6b7280;
+}
+
+
+.stat-card-content h2 {
+  margin: 0;
+
+  font-size: 26px;
+
+  color: #111827;
+}
+
+
+.stat-card-content span {
+  font-size: 11px;
+
+  color: #9ca3af;
+}

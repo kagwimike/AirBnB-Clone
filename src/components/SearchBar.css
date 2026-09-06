@@ -1,0 +1,99 @@
+/* =========================================
+   SEARCH BAR
+========================================= */
+
+.search-bar {
+  width: 100%;
+  height: 48px;
+
+  display: flex;
+  align-items: center;
+
+  border: 1px solid #dddddd;
+  border-radius: 28px;
+
+  padding: 0 6px 0 18px;
+
+  box-sizing: border-box;
+
+  background: #ffffff;
+
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+
+  transition:
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.search-bar:hover,
+.search-bar:focus-within {
+  border-color: #b0b0b0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.14);
+}
+
+/* =========================================
+   INPUT
+========================================= */
+
+.search-bar input {
+  flex: 1;
+
+  min-width: 0;
+
+  border: none;
+  outline: none;
+
+  background: transparent;
+
+  color: #222222;
+
+  font-size: 14px;
+}
+
+.search-bar input::placeholder {
+  color: #717171;
+}
+
+/* =========================================
+   SEARCH BUTTON
+========================================= */
+
+.search-bar button {
+  width: 38px;
+  height: 38px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  border: none;
+  border-radius: 50%;
+
+  background: #ff385c;
+  color: #ffffff;
+
+  cursor: pointer;
+
+  transition: background-color 0.2s ease;
+}
+
+.search-bar button:hover {
+  background: #e31c5f;
+}
+
+.search-bar button:focus-visible {
+  outline: 2px solid #222222;
+  outline-offset: 2px;
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 450px) {
+  .search-bar input {
+    font-size: 13px;
+  }
+}

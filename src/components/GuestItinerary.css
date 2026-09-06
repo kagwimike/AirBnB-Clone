@@ -1,0 +1,9 @@
+.guest-itinerary { margin-bottom: 35px; }
+.itinerary-card { display: grid; grid-template-columns: 1fr .8fr; gap: 24px; margin-bottom: 14px; padding: 22px; border: 1px solid #edf0f3; border-radius: 14px; background: #fff; }
+.itinerary-label { color: #e11d48; font-size: 12px; font-weight: 700; text-transform: uppercase; }
+.itinerary-card h3 { margin: 6px 0 12px; color: #111827; }
+.itinerary-card p { color: #4b5563; line-height: 1.5; }
+.itinerary-card a { color: #e11d48; font-weight: 700; }
+.itinerary-instructions { padding: 14px; border-radius: 10px; background: #fff1f2; color: #374151; }
+.itinerary-instructions p { margin: 7px 0 12px; }
+@media (max-width: 700px) { .itinerary-card { grid-template-columns: 1fr; } }

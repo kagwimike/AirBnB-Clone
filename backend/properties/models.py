@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+import uuid
 
 class Amenity(models.Model):
     name = models.CharField(max_length=50)
@@ -37,6 +38,8 @@ class Property(models.Model):
     max_guests = models.PositiveIntegerField(default=1)
     bedrooms = models.PositiveIntegerField(default=1)
     bathrooms = models.DecimalField(max_digits=3, decimal_places=1, default=1.0)
+    house_rules = models.TextField(blank=True)
+    check_in_instructions = models.TextField(blank=True)
     
     amenities = models.ManyToManyField(Amenity, related_name='properties', blank=True)
     
@@ -59,3 +62,32 @@ class PropertyImage(models.Model):
 
     def __str__(self):
         return f"Image for {self.property.title}"
+
+
+class Wishlist(models.Model):
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='wishlists')
+    name = models.CharField(max_length=100, default='My wishlist')
+    properties = models.ManyToManyField(Property, related_name='wishlists', blank=True)
+    share_token = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
+    is_shared = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'{self.name} ({self.owner.email})'
+
+
+class Review(models.Model):
+    property = models.ForeignKey(Property, on_delete=models.CASCADE, related_name='reviews')
+    guest = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='reviews')
+    booking = models.OneToOneField('bookings.Booking', on_delete=models.CASCADE, related_name='review')
+    rating = models.PositiveSmallIntegerField()
+    comment = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created_at']
+
+
+class ReviewImage(models.Model):
+    review = models.ForeignKey(Review, on_delete=models.CASCADE, related_name='images')
+    image = models.ImageField(upload_to='review_images/')

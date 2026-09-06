@@ -1,0 +1,19 @@
+.guest-communication { margin-bottom: 35px; }
+.communication-layout { display: grid; grid-template-columns: 280px 1fr; overflow: hidden; border: 1px solid #edf0f3; border-radius: 16px; background: #fff; }
+.conversation-list { padding: 16px; border-right: 1px solid #edf0f3; background: #fafafa; }
+.conversation-list h3 { margin: 5px 0 10px; font-size: 14px; }
+.conversation-list button { display: block; width: 100%; margin: 6px 0; padding: 10px; border: 0; border-radius: 8px; background: #fff; text-align: left; cursor: pointer; }
+.conversation-list button.unread { border-left: 3px solid #ff385c; font-weight: 700; }
+.conversation-list small { display: block; margin-top: 3px; color: #6b7280; font-weight: 400; }
+.chat-panel { min-height: 280px; padding: 20px; }
+.chat-panel h3 { margin-top: 0; }
+.chat-messages { max-height: 260px; overflow-y: auto; }
+.chat-message { margin: 10px 0; padding: 10px; border-radius: 10px; background: #f6f7fb; }
+.chat-message strong, .chat-message span, .chat-message a { display: block; }
+.chat-message span { margin: 4px 0; }
+.chat-panel form { display: grid; gap: 8px; margin-top: 12px; }
+.chat-panel textarea { min-height: 64px; padding: 9px; border: 1px solid #d1d5db; border-radius: 8px; font: inherit; }
+.chat-panel form button, .notification-enable { width: fit-content; padding: 9px 13px; border: 0; border-radius: 8px; background: #ff385c; color: #fff; font-weight: 700; cursor: pointer; }
+.chat-empty, .chat-error { color: #6b7280; }
+.chat-error { color: #b91c1c; }
+@media (max-width: 700px) { .communication-layout { grid-template-columns: 1fr; }.conversation-list { border-right: 0; border-bottom: 1px solid #edf0f3; } }
