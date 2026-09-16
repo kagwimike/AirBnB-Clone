@@ -64,6 +64,17 @@ class PropertyImage(models.Model):
         return f"Image for {self.property.title}"
 
 
+class PropertyAvailability(models.Model):
+    property = models.ForeignKey(Property, on_delete=models.CASCADE, related_name='availability')
+    date = models.DateField()
+    price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    is_available = models.BooleanField(default=True)
+
+    class Meta:
+        constraints = [models.UniqueConstraint(fields=('property', 'date'), name='unique_property_availability_date')]
+        ordering = ['date']
+
+
 class Wishlist(models.Model):
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='wishlists')
     name = models.CharField(max_length=100, default='My wishlist')

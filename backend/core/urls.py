@@ -18,4 +18,5 @@ urlpatterns = [
     # path('api/payments/', include('payments.urls')),
    path('api/bookings/',include('bookings.urls')),
    path('api/payments/',include('payments.urls')),
+    path('api/dashboard/', include('dashboard.urls')),
 ]

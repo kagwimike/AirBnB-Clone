@@ -23,9 +23,14 @@ class User(AbstractUser):
         HOST = 'HOST', 'Host'
         GUEST = 'GUEST', 'Guest'
 
+    class Mode(models.TextChoices):
+        TRAVELING = 'TRAVELING', 'Traveling'
+        HOSTING = 'HOSTING', 'Hosting'
+
     username = None 
     email = models.EmailField(unique=True)
     role = models.CharField(max_length=10, choices=Role.choices, default=Role.GUEST)
+    mode = models.CharField(max_length=10, choices=Mode.choices, default=Mode.TRAVELING)
     phone_number = models.CharField(max_length=15, blank=True, null=True)
 
     USERNAME_FIELD = 'email'

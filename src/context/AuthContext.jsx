@@ -10,11 +10,29 @@ export const AuthProvider = ({ children }) => {
 
   // On initial app load, check if user data already exists in local storage
   useEffect(() => {
-    const storedUser = authService.getCurrentUser();
-    if (storedUser) {
-      setUser(storedUser);
-    }
-    setLoading(false);
+    let active = true;
+    const restoreSession = async () => {
+      const storedUser = authService.getCurrentUser();
+      const accessToken = localStorage.getItem('access_token');
+      if (!storedUser || !accessToken) {
+        if (active) setLoading(false);
+        return;
+      }
+      try {
+        const profile = await authService.getProfile();
+        if (active) {
+          setUser(profile);
+          localStorage.setItem('user', JSON.stringify(profile));
+        }
+      } catch {
+        authService.logout();
+        if (active) setUser(null);
+      } finally {
+        if (active) setLoading(false);
+      }
+    };
+    restoreSession();
+    return () => { active = false; };
   }, []);
 
   // Login handler
@@ -36,11 +54,18 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
   };
 
+  const setMode = async (mode) => {
+    const nextUser = await authService.setMode(mode);
+    setUser(nextUser);
+    return nextUser;
+  };
+
   const value = {
     user,
     login,
     register,
     logout,
+    setMode,
     isAuthenticated: !!user,
   };
 

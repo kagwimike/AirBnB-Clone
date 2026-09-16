@@ -21,3 +21,28 @@ class ProfileView(generics.RetrieveUpdateAPIView):
     def get_object(self):
         # Always return the currently logged-in user based on the JWT token
         return self.request.user
+
+    def patch(self, request, *args, **kwargs):
+        mode = request.data.get('mode')
+        if mode not in ('TRAVELING', 'HOSTING'):
+            return Response({'detail': 'Mode must be TRAVELING or HOSTING.'}, status=status.HTTP_400_BAD_REQUEST)
+        if mode == 'HOSTING' and request.user.role != 'HOST':
+            return Response({'detail': 'Only host accounts can enter hosting mode.'}, status=status.HTTP_403_FORBIDDEN)
+        request.user.mode = mode
+        request.user.save(update_fields=['mode'])
+        return Response(self.get_serializer(request.user).data)
+
+
+class ModeView(generics.GenericAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    serializer_class = UserSerializer
+
+    def post(self, request):
+        mode = request.data.get('mode')
+        if mode not in ('TRAVELING', 'HOSTING'):
+            return Response({'detail': 'Mode must be TRAVELING or HOSTING.'}, status=status.HTTP_400_BAD_REQUEST)
+        if mode == 'HOSTING' and request.user.role != 'HOST':
+            return Response({'detail': 'Only host accounts can enter hosting mode.'}, status=status.HTTP_403_FORBIDDEN)
+        request.user.mode = mode
+        request.user.save(update_fields=['mode'])
+        return Response(UserSerializer(request.user).data)

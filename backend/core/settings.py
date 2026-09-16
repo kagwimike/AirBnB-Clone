@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'properties',
      'bookings',
 'payments',
+    'dashboard',
 ]
 
 # Tell Django to use our custom user model

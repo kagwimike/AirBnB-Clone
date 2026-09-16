@@ -15,6 +15,7 @@ import api from "../services/api";
 import { useAuth } from "../context/AuthContext";
 import wishlistService from "../services/wishlistService";
 import reviewService from "../services/reviewService";
+import dashboardService from "../services/dashboardService";
 import GuestCommunication from "../components/GuestCommunication";
 import GuestItinerary from "../components/GuestItinerary";
 import "./GuestDashboard.css";
@@ -55,12 +56,18 @@ function GuestDashboard() {
   const [reviewBooking, setReviewBooking] = useState(null);
   const [review, setReview] = useState({ rating: 5, comment: "" });
   const [reviewPhotos, setReviewPhotos] = useState([]);
+  const [selectedBooking, setSelectedBooking] = useState(null);
+  const [detailLoading, setDetailLoading] = useState(false);
+  const [detailError, setDetailError] = useState("");
+  const [issueTitle, setIssueTitle] = useState("");
+  const [issueDescription, setIssueDescription] = useState("");
+  const [issueMessage, setIssueMessage] = useState("");
 
   const fetchBookings = useCallback(async () => {
     try {
       setLoading(true);
-      const { data } = await api.get("bookings/");
-      setBookings(Array.isArray(data) ? data : data.results || []);
+      const data = await dashboardService.guestBookings({ page_size: 50 });
+      setBookings(data.results || []);
     } catch {
       setBookings([]);
       setNotice("We could not load your bookings. Please try again shortly.");
@@ -68,6 +75,18 @@ function GuestDashboard() {
       setLoading(false);
     }
   }, []);
+  const openBookingDetail = async (booking) => {
+    try {
+      setDetailLoading(true);
+      setDetailError("");
+      setSelectedBooking(await dashboardService.guestBookingDetail(booking.id));
+    } catch {
+      setDetailError("We could not load the full booking details.");
+      setSelectedBooking(booking);
+    } finally {
+      setDetailLoading(false);
+    }
+  };
   useEffect(() => {
     fetchBookings();
   }, [fetchBookings]);
@@ -125,6 +144,21 @@ function GuestDashboard() {
       );
     }
   };
+  const reportIssue = async (event) => {
+    event.preventDefault();
+    try {
+      await dashboardService.reportIssue(
+        selectedBooking.id,
+        issueTitle,
+        issueDescription,
+      );
+      setIssueTitle("");
+      setIssueDescription("");
+      setIssueMessage("Issue reported to your host.");
+    } catch {
+      setIssueMessage("We could not report the issue. Try again shortly.");
+    }
+  };
 
   const confirmed = bookings.filter(
     (item) => item.payment_status === "CONFIRMED",
@@ -136,15 +170,19 @@ function GuestDashboard() {
   );
   const upcoming = useMemo(
     () =>
-      confirmed
+      bookings
+        .filter((item) =>
+          ["CONFIRMED", "CHECKED_IN"].includes(item.payment_status),
+        )
         .filter((item) => new Date(item.check_in_date) >= new Date())
         .sort((a, b) => new Date(a.check_in_date) - new Date(b.check_in_date)),
-    [confirmed],
+    [bookings],
   );
   const completed = bookings.filter(
     (item) =>
-      item.payment_status === "CONFIRMED" &&
-      new Date(item.check_out_date) < new Date(),
+      item.payment_status === "COMPLETED" ||
+      (item.payment_status === "CONFIRMED" &&
+        new Date(item.check_out_date) < new Date()),
   );
 
   return (
@@ -362,6 +400,9 @@ function GuestDashboard() {
                           </span>
                         </td>
                         <td className="booking-actions">
+                          <button onClick={() => openBookingDetail(booking)}>
+                            View booking
+                          </button>
                           {booking.payment_status === "PENDING" && (
                             <button
                               onClick={() =>
@@ -430,6 +471,95 @@ function GuestDashboard() {
           )}
         </div>
       </main>
+      {selectedBooking && (
+        <div className="booking-detail-backdrop" role="presentation">
+          <aside className="booking-detail-drawer" aria-label="Booking details">
+            <button
+              className="review-close"
+              onClick={() => setSelectedBooking(null)}
+              aria-label="Close booking details"
+            >
+              &times;
+            </button>
+            {detailLoading ? (
+              <div className="dashboard-loading">
+                <div className="dashboard-spinner" />
+                <p>Loading booking details...</p>
+              </div>
+            ) : (
+              <>
+                <p className="welcome-small-text">
+                  BOOKING #{selectedBooking.id}
+                </p>
+                <h2>{titleOf(selectedBooking)}</h2>
+                <p>{locationOf(selectedBooking)}</p>
+                {detailError && (
+                  <div className="guest-notice" role="alert">
+                    {detailError}
+                  </div>
+                )}
+                <dl className="booking-detail-list">
+                  <div>
+                    <dt>Stay dates</dt>
+                    <dd>
+                      {formatDate(selectedBooking.check_in_date)} -{" "}
+                      {formatDate(selectedBooking.check_out_date)}
+                    </dd>
+                  </div>
+                  <div>
+                    <dt>Guests</dt>
+                    <dd>{selectedBooking.guests || 1}</dd>
+                  </div>
+                  <div>
+                    <dt>Total</dt>
+                    <dd>
+                      KES{" "}
+                      {Number(
+                        selectedBooking.total_price || 0,
+                      ).toLocaleString()}
+                    </dd>
+                  </div>
+                  <div>
+                    <dt>Host</dt>
+                    <dd>
+                      {selectedBooking.host?.first_name || "Your host"}{" "}
+                      {selectedBooking.host?.last_name || ""}
+                    </dd>
+                  </div>
+                  <div>
+                    <dt>Check-in instructions</dt>
+                    <dd>
+                      {selectedBooking.property?.check_in_instructions ||
+                        "Your host will share check-in details in the booking conversation."}
+                    </dd>
+                  </div>
+                </dl>
+                <form className="issue-form" onSubmit={reportIssue}>
+                  <h3>Report an issue</h3>
+                  <input
+                    required
+                    value={issueTitle}
+                    onChange={(event) => setIssueTitle(event.target.value)}
+                    placeholder="What went wrong?"
+                  />
+                  <textarea
+                    required
+                    value={issueDescription}
+                    onChange={(event) =>
+                      setIssueDescription(event.target.value)
+                    }
+                    placeholder="Describe the issue for your host"
+                  />
+                  <button className="guest-primary-action" type="submit">
+                    Report issue
+                  </button>
+                  {issueMessage && <p role="status">{issueMessage}</p>}
+                </form>
+              </>
+            )}
+          </aside>
+        </div>
+      )}
       {reviewBooking && (
         <div className="review-backdrop" role="presentation">
           <form className="review-dialog" onSubmit={submitReview}>

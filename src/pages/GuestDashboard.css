@@ -193,6 +193,20 @@
 .review-dialog textarea { min-height: 100px; resize: vertical; }
 .review-dialog .guest-primary-action { width: 100%; justify-content: center; margin-top: 0; }
 .review-close { position: absolute; top: 12px; right: 16px; border: 0; background: none; font-size: 26px; cursor: pointer; }
+.booking-detail-backdrop { position: fixed; inset: 0; z-index: 2500; background: rgba(17,24,39,.45); }
+.booking-detail-drawer { position: absolute; top: 0; right: 0; width: min(100%, 480px); height: 100%; overflow-y: auto; padding: 34px 28px; background: #fff; box-shadow: -12px 0 35px rgba(0,0,0,.16); }
+.booking-detail-drawer h2 { margin: 0 0 6px; color: #111827; }
+.booking-detail-drawer > p:not(.welcome-small-text) { margin: 0 0 24px; color: #6b7280; }
+.booking-detail-list { margin: 0; }
+.booking-detail-list div { padding: 15px 0; border-top: 1px solid #edf0f3; }
+.booking-detail-list dt { color: #6b7280; font-size: 12px; }
+.booking-detail-list dd { margin: 5px 0 0; color: #111827; font-size: 14px; }
+.issue-form { display: grid; gap: 10px; margin-top: 24px; padding-top: 20px; border-top: 1px solid #edf0f3; }
+.issue-form h3 { margin: 0; color: #111827; }
+.issue-form input, .issue-form textarea { padding: 10px; border: 1px solid #d1d5db; border-radius: 8px; font: inherit; }
+.issue-form textarea { min-height: 80px; resize: vertical; }
+.issue-form .guest-primary-action { margin-top: 0; }
+.issue-form p { margin: 0; color: #059669; font-size: 13px; }
 
 
 @keyframes floatPlane {
@@ -715,5 +729,7 @@
   .welcome-decoration {
     font-size: 45px;
   }
+
+  .booking-detail-drawer { width: 100%; padding: 28px 20px; }
 
 }

@@ -1,9 +1,15 @@
-from rest_framework import generics, permissions
+from rest_framework import generics, permissions, status
+from rest_framework.response import Response
 from django.db.models import Q
 from datetime import datetime
-from .models import Property, Amenity, Wishlist, Review
+from .models import Property, Amenity, Wishlist, Review, PropertyAvailability
 from bookings.models import Booking
-from .serializers import PropertySerializer, AmenitySerializer, WishlistSerializer, ReviewSerializer
+from .serializers import PropertySerializer, AmenitySerializer, WishlistSerializer, ReviewSerializer, PropertyAvailabilitySerializer
+
+
+class HostModePermission(permissions.IsAuthenticated):
+    def has_permission(self, request, view):
+        return super().has_permission(request, view) and (request.user.is_staff or (request.user.role == 'HOST' and request.user.mode == 'HOSTING'))
 
 class PropertyListCreateView(generics.ListCreateAPIView):
     serializer_class = PropertySerializer
@@ -71,6 +77,11 @@ class PropertyListCreateView(generics.ListCreateAPIView):
 
                 # Exclude the booked properties from the available queryset
                 queryset = queryset.exclude(id__in=booked_property_ids)
+                queryset = queryset.exclude(
+                    availability__date__gte=requested_checkin,
+                    availability__date__lt=requested_checkout,
+                    availability__is_available=False,
+                )
             except ValueError:
                 pass # Fail gracefully if dates are malformed in the URL
                 
@@ -79,7 +90,7 @@ class PropertyListCreateView(generics.ListCreateAPIView):
     def get_permissions(self):
         # Anyone can view properties (GET), but only authenticated hosts can create them (POST)
         if self.request.method == 'POST':
-            return [permissions.IsAuthenticated()]
+            return [HostModePermission()]
         return [permissions.AllowAny()]
 
 class PropertyDetailView(generics.RetrieveUpdateDestroyAPIView):
@@ -91,6 +102,38 @@ class PropertyDetailView(generics.RetrieveUpdateDestroyAPIView):
         if self.request.method in ['PUT', 'PATCH', 'DELETE']:
             return [permissions.IsAuthenticated()]
         return [permissions.AllowAny()]
+
+    def get_queryset(self):
+        if self.request.method in ('PUT', 'PATCH', 'DELETE'):
+            return Property.objects.filter(host=self.request.user)
+        return Property.objects.all()
+
+
+class PropertyCalendarView(generics.GenericAPIView):
+    serializer_class = PropertyAvailabilitySerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_property(self, request, property_id):
+        return Property.objects.get(id=property_id, host=request.user)
+
+    def get(self, request, property_id):
+        try:
+            property_obj = self.get_property(request, property_id)
+        except Property.DoesNotExist:
+            return Response({'detail': 'Property not found.'}, status=status.HTTP_404_NOT_FOUND)
+        entries = PropertyAvailability.objects.filter(property=property_obj)
+        booked_dates = Booking.objects.filter(property=property_obj, payment_status__in=('PENDING', 'CONFIRMED')).values_list('check_in_date', 'check_out_date')
+        return Response({'entries': self.get_serializer(entries, many=True).data, 'booked_ranges': [{'check_in': start, 'check_out': end} for start, end in booked_dates]})
+
+    def post(self, request, property_id):
+        try:
+            property_obj = self.get_property(request, property_id)
+        except Property.DoesNotExist:
+            return Response({'detail': 'Property not found.'}, status=status.HTTP_404_NOT_FOUND)
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        entry, _ = PropertyAvailability.objects.update_or_create(property=property_obj, date=serializer.validated_data['date'], defaults={'price': serializer.validated_data.get('price'), 'is_available': serializer.validated_data.get('is_available', True)})
+        return Response(self.get_serializer(entry).data, status=status.HTTP_200_OK)
 
 class AmenityListView(generics.ListAPIView):
     queryset = Amenity.objects.all()
@@ -137,7 +180,7 @@ class PropertyReviewListCreateView(generics.ListCreateAPIView):
 
     def perform_create(self, serializer):
         booking = serializer.validated_data['booking']
-        if booking.user != self.request.user or booking.property_id != int(self.kwargs['property_id']) or booking.payment_status != 'CONFIRMED':
+        if booking.user != self.request.user or booking.property_id != int(self.kwargs['property_id']) or booking.payment_status not in ('CONFIRMED', 'COMPLETED'):
             from rest_framework.exceptions import PermissionDenied
             raise PermissionDenied('Only a guest with a confirmed stay can review this property.')
         serializer.save(guest=self.request.user, property_id=self.kwargs['property_id'])

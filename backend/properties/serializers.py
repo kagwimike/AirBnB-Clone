@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Property, PropertyImage, Amenity, Wishlist, Review, ReviewImage
+from .models import Property, PropertyImage, PropertyAvailability, Amenity, Wishlist, Review, ReviewImage
 from accounts.serializers import UserSerializer
 
 class AmenitySerializer(serializers.ModelSerializer):
@@ -19,6 +19,12 @@ class PropertyImageSerializer(serializers.ModelSerializer):
         if obj.image:
             return request.build_absolute_url(obj.image.url) if request else obj.image.url
         return obj.image_url
+
+
+class PropertyAvailabilitySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PropertyAvailability
+        fields = ('id', 'date', 'price', 'is_available')
 
 class PropertySerializer(serializers.ModelSerializer):
     images = PropertyImageSerializer(many=True, read_only=True)

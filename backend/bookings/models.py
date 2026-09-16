@@ -8,6 +8,8 @@ class Booking(models.Model):
         ('CONFIRMED', 'Confirmed'),
         ('CANCELLED', 'Cancelled'),
         ('FAILED', 'Failed'),
+        ('CHECKED_IN', 'Checked in'),
+        ('COMPLETED', 'Completed'),
     ]
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='bookings')
@@ -53,3 +55,27 @@ class Notification(models.Model):
 
     class Meta:
         ordering = ['-created_at']
+
+
+class Issue(models.Model):
+    STATUS_CHOICES = [('OPEN', 'Open'), ('RESOLVED', 'Resolved')]
+    booking = models.ForeignKey(Booking, on_delete=models.CASCADE, related_name='issues')
+    reporter = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='reported_issues')
+    title = models.CharField(max_length=160)
+    description = models.TextField()
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='OPEN')
+    resolution = models.TextField(blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    resolved_at = models.DateTimeField(blank=True, null=True)
+
+    class Meta:
+        ordering = ['-created_at']
+
+
+class GuestReview(models.Model):
+    booking = models.OneToOneField(Booking, on_delete=models.CASCADE, related_name='guest_review')
+    host = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='received_guest_reviews')
+    guest = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='written_guest_reviews')
+    rating = models.PositiveSmallIntegerField()
+    comment = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)

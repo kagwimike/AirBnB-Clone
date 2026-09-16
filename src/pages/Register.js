@@ -1,19 +1,22 @@
-import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
-import Button from '@mui/material/Button';
-import './Register.css';
+import React, { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import Button from "@mui/material/Button";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import "./Register.css";
 
 function Register() {
   const [formData, setFormData] = useState({
-    email: '',
-    password: '',
-    first_name: '',
-    last_name: '',
-    role: 'GUEST', // Default role
-    phone_number: ''
+    email: "",
+    password: "",
+    first_name: "",
+    last_name: "",
+    role: "GUEST", // Default role
+    phone_number: "",
   });
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const { register, login } = useAuth();
   const navigate = useNavigate();
 
@@ -23,14 +26,14 @@ function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
+    setError("");
     try {
       await register(formData);
       // Automatically log them in after successful registration
       await login({ email: formData.email, password: formData.password });
-      navigate('/');
+      navigate("/");
     } catch (err) {
-      setError('Registration failed. Email may already be in use.');
+      setError("Registration failed. Email may already be in use.");
     }
   };
 
@@ -40,7 +43,10 @@ function Register() {
       <div className="register-image-side">
         <div className="register-image-overlay">
           <h1>Join our community</h1>
-          <p>Find your next getaway or become a host to share your world with travelers.</p>
+          <p>
+            Find your next getaway or become a host to share your world with
+            travelers.
+          </p>
         </div>
       </div>
 
@@ -49,7 +55,7 @@ function Register() {
         <div className="register-card">
           <h2>Welcome to Airbnb</h2>
           {error && <p className="error-message">{error}</p>}
-          
+
           <form onSubmit={handleSubmit}>
             <div className="form-group">
               <input
@@ -63,14 +69,25 @@ function Register() {
             </div>
 
             <div className="form-group">
-              <input
-                type="password"
-                name="password"
-                placeholder="Password (min 8 chars)"
-                value={formData.password}
-                onChange={handleChange}
-                required
-              />
+              <div className="password-field">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  placeholder="Password (min 8 chars)"
+                  value={formData.password}
+                  onChange={handleChange}
+                  required
+                />
+                <button
+                  type="button"
+                  className="password-toggle"
+                  onClick={() => setShowPassword((visible) => !visible)}
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                  aria-pressed={showPassword}
+                >
+                  {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                </button>
+              </div>
             </div>
 
             <div className="form-row">
@@ -112,11 +129,18 @@ function Register() {
               </select>
             </div>
 
-            <Button 
-              type="submit" 
-              variant="contained" 
+            <Button
+              type="submit"
+              variant="contained"
               fullWidth
-              style={{ backgroundColor: '#ff7779', color: 'white', marginTop: '10px', padding: '12px', fontSize: '16px', fontWeight: 'bold' }}
+              style={{
+                backgroundColor: "#ff7779",
+                color: "white",
+                marginTop: "10px",
+                padding: "12px",
+                fontSize: "16px",
+                fontWeight: "bold",
+              }}
             >
               Agree and Continue
             </Button>

@@ -1,0 +1,16 @@
+.account-content { padding: 35px 40px 60px; max-width: 1000px; }
+.account-panel { padding: 32px; border: 1px solid #edf0f3; border-radius: 16px; background: #fff; }
+.account-wide { overflow-x: auto; }
+.account-avatar { display: grid; place-items: center; width: 72px; height: 72px; border-radius: 50%; background: #111827; color: #fff; font-size: 30px; font-weight: 700; }
+.account-panel h2 { margin: 18px 0 4px; color: #111827; }
+.account-panel h3 { margin-top: 28px; color: #111827; }
+.account-panel > p { margin: 0 0 24px; color: #6b7280; }
+.account-panel label { display: grid; gap: 6px; margin: 14px 0; color: #374151; font-weight: 700; font-size: 13px; }
+.account-panel label input, .account-panel label textarea { padding: 10px; border: 1px solid #d1d5db; border-radius: 8px; font: inherit; font-weight: 400; }
+.account-panel dl { display: grid; gap: 14px; max-width: 500px; }
+.account-panel dl div { display: flex; justify-content: space-between; gap: 20px; padding-bottom: 12px; border-bottom: 1px solid #f0f0f0; }
+.account-panel dt { color: #6b7280; }.account-panel dd { margin: 0; color: #111827; }
+.account-toggle { display: block; margin: 12px 0; color: #374151; }.account-toggle input { margin-right: 9px; }
+.account-button { margin-top: 20px; padding: 10px 15px; border: 0; border-radius: 8px; background: #ff385c; color: #fff; font-weight: 700; cursor: pointer; }.account-message { color: #059669 !important; }
+.account-table table { width: 100%; min-width: 520px; border-collapse: collapse; }.account-table th, .account-table td { padding: 13px; border-bottom: 1px solid #edf0f3; text-align: left; }.account-table th { color: #6b7280; font-size: 11px; text-transform: uppercase; }
+@media (max-width: 700px) { .account-content { padding: 20px; }.account-panel { padding: 22px; } }

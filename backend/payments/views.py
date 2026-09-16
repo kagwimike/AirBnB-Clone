@@ -1,11 +1,11 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status, permissions
-from datetime import datetime
+from datetime import datetime, timedelta
 from decimal import Decimal, ROUND_HALF_UP
 
 from bookings.models import Booking
-from properties.models import Property
+from properties.models import Property, PropertyAvailability
 from .models import Payment
 from .utils import initiate_stk_push
 
@@ -64,8 +64,23 @@ class MpesaCheckoutView(APIView):
         if Booking.objects.filter(property=property_obj, check_in_date__lt=check_out_date, check_out_date__gt=check_in_date, payment_status__in=['PENDING', 'CONFIRMED']).exists():
             return Response({'error': 'These dates are no longer available.'}, status=status.HTTP_409_CONFLICT)
 
+        if PropertyAvailability.objects.filter(property=property_obj, date__gte=check_in_date, date__lt=check_out_date, is_available=False).exists():
+            return Response({'error': 'One or more selected dates are unavailable.'}, status=status.HTTP_409_CONFLICT)
+
         nights = (check_out_date - check_in_date).days
-        accommodation = Decimal(property_obj.price_per_night) * nights
+        overrides = {
+            entry.date: entry.price
+            for entry in PropertyAvailability.objects.filter(
+                property=property_obj,
+                date__gte=check_in_date,
+                date__lt=check_out_date,
+                is_available=True,
+            )
+        }
+        accommodation = sum(
+            (Decimal(overrides.get(check_in_date + timedelta(days=offset)) or property_obj.price_per_night) for offset in range(nights)),
+            Decimal('0'),
+        )
         cleaning_fee = Decimal('1000.00')
         service_fee = (accommodation * Decimal('0.10')).quantize(Decimal('.01'), rounding=ROUND_HALF_UP)
         taxes = ((accommodation + cleaning_fee + service_fee) * Decimal('0.16')).quantize(Decimal('.01'), rounding=ROUND_HALF_UP)
